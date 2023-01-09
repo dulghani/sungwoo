@@ -1,0 +1,175 @@
+/**
+* Template Name: Arsha - v4.9.1
+* Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+body {
+  height: 100hv;
+  font-family: "Open Sans", sans-serif;
+  color: #444444;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Jost", sans-serif;
+}
+
+
+/*--------------------------------------------------------------
+# Card
+--------------------------------------------------------------*/
+.card-dashboard{
+  box-shadow: 0px 2px 5px 2px #888888;
+}
+
+.card-dashboard:hover{
+  transition: all 0.4s ease-in-out;
+  transform: scale(1.02);
+}
+
+/*--------------------------------------------------------------
+# Topbar
+--------------------------------------------------------------*/
+.navbar{
+  background: #ffd900;
+  height: auto;
+  
+}
+
+/*--------------------------------------------------------------
+# Sidebar
+--------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------
+# Button
+--------------------------------------------------------------*/
+.btn-login, .btn-dash, .btn-submit {
+  background: #5ba7ff!important;
+  color: #ffffff!important;
+}
+
+
+.btn-login:hover,.btn-dash:hover,.btn-submit:hover{
+  background: #3a89e2!important;
+  color: #ffffff!important;
+  transition: all 0.4s ease-in-out;
+  transform: scale(1.02);
+}
+
+.btn-login:active,.btn-dash:active,.btn-submit:active, .btn-login:focus,.btn-dash:focus,.btn-submit:focus{
+  background: #1467c5!important;
+  color: #ffffff!important;
+}
+
+.btn-regist{
+  background: #44db71;
+  color: #ffffff;
+}
+
+.btn-regist:hover{
+  background: #39c462;
+  color: #ffffff;
+  transition: all 0.4s ease-in-out;
+  transform: scale(1.02);
+}
+
+.btn-regist:active, .btn-regist:focus{
+  background: #2daa53!important;
+  color: #ffffff!important;
+}
+
+.btn-nav:hover {
+	background-color: #F5ECC9;
+	filter: none;
+  transition: all 0.4s ease-in-out;
+  transform: scale(1.02);
+  
+}
+
+.btn-nav:active {
+  color: #ffffff; 
+  background-color: #F5ECC9 !important;
+  border-color: #F5ECC9!important;
+  
+}
+
+.btn-nav.active{
+  background-color: #F5ECC9!important;
+  color: #ffffff; 
+  border: none;
+  
+}
+
+.btn-nav-item:hover {
+  border: none;
+  border-color:#f7f7f7;
+  font-weight: bold;
+ 
+}
+
+.btn-nav-item:active,.btn-nav-item:focus {
+  color: #ffffff; 
+  border-color:#f7f7f7!important;
+  border: none;
+  font-weight: bold;
+}
+
+.btn-nav-item.active{
+  color: #ffffff; 
+  border-color:#f7f7f7!important;
+  border: none;
+  font-weight: bold;
+  
+}
+
+/*--------------------------------------------------------------
+# Alert
+--------------------------------------------------------------*/
+.alert {
+  height: 40px;
+}
+
+/*--------------------------------------------------------------
+# Datatable
+--------------------------------------------------------------*/
+div.dataTables_wrapper {
+  width: 1050px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px){
+  div.dataTables_wrapper {
+    width: 470px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 999.98px) {
+  div.dataTables_wrapper {
+    width: 530px;
+    margin: 0 auto;
+  }
+
+}
+
+@media (min-width: 1000px) and (max-width: 1199.98px) {
+  div.dataTables_wrapper {
+    width: 730px;
+    margin: 0 auto;
+  }
+
+}
+
+.table-sm,.btn-warning,.btn-danger{
+  font-size: 14px;
+}
