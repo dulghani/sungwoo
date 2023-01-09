@@ -1,12 +1,4 @@
-<?php
-    session_start();
 
-    //cek apakah yang mengakses halaman ini sudah login
-    if ($_SESSION['position'] == "") {
-        header("location:../../index.php");
-    }
-
-    ?>
 <header>
 			<nav class="navbar navbar-expand-md navbar-dark">
 			  	<div class="container-xxl">

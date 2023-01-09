@@ -1,6 +1,12 @@
 <!-- PHP Connection-->
 <?php
-    
+    session_start();
+
+    //cek apakah yang mengakses halaman ini sudah login
+    if ($_SESSION['position'] == "") {
+        header("location:../../index.php");
+    }
+
     include "../../connect.php";    
 ?>
 <!-- End PHP Connection-->
@@ -43,12 +49,11 @@
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
         $namaline       = $r1['nama'];
-        $idgrupline     = $r1['grupid'];
+        $grupline     = $r1['grupline'];
         $ket            = $r1['ket'];
         // $status         = $r1['status'];
         $author         = $_SESSION['name'];
-        $grupline       = mysqli_fetch_array($conn, "SELECT nama_gru from master_grupline where grupid")['idgruline'];
-
+        
         if ($id == '') {
             $error = "Data tidak ditemukan";
         }
@@ -58,16 +63,16 @@
     if (isset($_POST['submit'])) {
 
         $namaline       = STRTOUPPER($_POST['namaline']);
-        $idgrupline     = $_POST['grupcode'];
+        $grupline       = $_POST['grupcode'];
         $ket            = $_POST['ket'];
         // $status         = $_POST['status'];
         $author         = $_SESSION['name'];
         
 
-        if ($namaline && $idgrupline && $ket && $author) {
+        if ($namaline && $grupline && $ket && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE $tabelnya SET namaline='$namaline', grupid='$idgrupline', ket='$ket' where idline = '$id'";
+                $sql1       = "UPDATE $tabelnya SET namaline='$namaline', grupline='$grupline', ket='$ket' where idline = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
@@ -82,7 +87,7 @@
                 if ($cek > 0){
                     $warning           = "Nama Line sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO master_line values ('', '$namaline', '$idgrupline', '$ket', NOW(), '$author')";
+                    $sql1   = "INSERT INTO master_line values ('', '$namaline', '$grupline', '$ket', NOW(), '$author')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed    = "Submission success";
@@ -226,7 +231,7 @@
                                                             $sql = mysqli_query($conn, "SELECT idgruline,nama_gru FROM master_grupline order by create_at");
                                                             while ($data = mysqli_fetch_assoc($sql)) {
                                                                 ?>
-                                                                <option value="<?php echo $data['idgruline']; ?>"><?php echo $data['nama_gru']; ?></option>
+                                                                <option value="<?php echo $data['nama_gru']; ?>"><?php echo $data['nama_gru']; ?></option>
 
                                                             <?php
                                                             }

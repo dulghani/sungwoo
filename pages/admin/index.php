@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+    session_start();
+
+    //cek apakah yang mengakses halaman ini sudah login
+    if ($_SESSION['position'] == "") {
+        header("location:../../index.php");
+    }
 
     include "../../connect.php";    
 ?>
