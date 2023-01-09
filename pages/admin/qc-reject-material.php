@@ -1,6 +1,6 @@
 <!-- PHP Connection-->
 <?php
-    session_start(); 
+    
     include "../../connect.php";    
 ?>
 <!-- End PHP Connection-->

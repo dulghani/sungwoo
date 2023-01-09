@@ -37,6 +37,7 @@ if ( isset($_POST["login"])){
             	//$_SESSION['username'] = $row['username'];
                 $_SESSION['name'] = $row['name'];
             	$_SESSION['id'] = $row['id'];
+                $_SESSION['position'] = $row['position'];
             	header("Location:pages/admin/");
 		        exit();}
 

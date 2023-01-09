@@ -1,6 +1,6 @@
 <!-- PHP Connection-->
 <?php
-    session_start(); 
+    
     include "../../connect.php";    
 ?>
 <!-- End PHP Connection-->
@@ -291,13 +291,13 @@
 
                                         <tbody>
                                             <?php
-                                            $sql2   = "SELECT l.idline, l.namaline, g.nama_gru, l.ket, l.create_at, l.authorid  FROM master_line as l JOIN master_grupline as g on grupid=idgruline ORDER BY create_at DESC";
+                                            $sql2   = "SELECT * FROM $tabelnya ORDER BY create_at DESC";
                                             $q2     = mysqli_query($conn, $sql2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
                                                 $id             = $r2['idline'];
                                                 $namaline       = $r2['namaline'];
-                                                $grupcode       = $r2['nama_gru'];
+                                                $grupcode       = $r2['grupline'];
                                                 $ket            = $r2['ket'];
                                                 $author         = $r2['authorid'];
                                             ?>
