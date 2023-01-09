@@ -48,11 +48,11 @@
         $sql1           = "SELECT * FROM $tabelnya where idline = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $namaline       = $r1['nama'];
-        $grupline     = $r1['grupline'];
+        $namaline       = $r1['namaline'];
+        $grupline       = $r1['grupline'];
         $ket            = $r1['ket'];
         // $status         = $r1['status'];
-        $author         = $_SESSION['name'];
+        $author         = $r1['authorid'];
         
         if ($id == '') {
             $error = "Data tidak ditemukan";
@@ -62,7 +62,7 @@
     // SUBMIT FUNCTION
     if (isset($_POST['submit'])) {
 
-        $namaline       = STRTOUPPER($_POST['namaline']);
+        $namaline       = $_POST['namaline'];
         $grupline       = $_POST['grupcode'];
         $ket            = $_POST['ket'];
         // $status         = $_POST['status'];
@@ -87,7 +87,7 @@
                 if ($cek > 0){
                     $warning           = "Nama Line sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO master_line values ('', '$namaline', '$grupline', '$ket', NOW(), '$author')";
+                    $sql1   = "INSERT INTO $tabelnya values ('', '$namaline', '', '','','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed    = "Submission success";
@@ -226,7 +226,8 @@
                                                 <div class="mb-1 row">
                                                     <label for="grupcode" class="col-sm-12 col-form-label">Group Line Kode</label>
                                                     <div class="col-sm-12">
-                                                        <select name="grupcode" id="grupcode" class="custom-select form-control-sm form-control">
+                                                        <select name="grupcode" id="grupcode" class="form-control-sm form-control">
+                                                        <option value="<?php echo $grupline ?>"><?php echo $grupline ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idgruline,nama_gru FROM master_grupline order by create_at");
                                                             while ($data = mysqli_fetch_assoc($sql)) {
@@ -315,7 +316,6 @@
                                                     <td scope="row"><?php echo $namaline  ?></td>
                                                     <td scope="row"><?php echo $grupcode ?></td>
                                                     <td scope="row"><?php echo $ket ?></td>
-                                                    <td scope="row"><?php echo $status ?></td>
                                                     <td scope="row"><?php echo $author ?></td>
                                                 </tr>
                                             <?php
