@@ -33,7 +33,7 @@
     // DELETE FUNCTION
     if($op == 'delete'){
         $id         = $_GET['id'];
-        $sql1       = "DELETE FROM $tabelnya where idline = '$id'";
+        $sql1       = "DELETE FROM $tabelnya where id = '$id'";
         $q1         = mysqli_query($conn,$sql1);
         if($q1){
             $succeed = "Delete Success";
@@ -45,14 +45,13 @@
     // EDIT FUNCTION
     if ($op == 'edit') {
         $id             = $_GET['id'];
-        $sql1           = "SELECT * FROM $tabelnya where idline = '$id'";
+        $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $namaline       = $r1['namaline'];
+        $namaline       = $r1['nama'];
         $grupline       = $r1['grupline'];
-        $ket            = $r1['ket'];
         // $status         = $r1['status'];
-        $author         = $r1['authorid'];
+        $author         = $r1['author'];
         
         if ($id == '') {
             $error = "Data tidak ditemukan";
@@ -62,17 +61,16 @@
     // SUBMIT FUNCTION
     if (isset($_POST['submit'])) {
 
-        $namaline       = $_POST['namaline'];
+        $namaline       = STRTOUPPER($_POST['namaline']);
         $grupline       = $_POST['grupcode'];
-        $ket            = $_POST['ket'];
         // $status         = $_POST['status'];
         $author         = $_SESSION['name'];
         
 
-        if ($namaline && $grupline && $ket && $author) {
+        if ($namaline && $grupline && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE $tabelnya SET namaline='$namaline', grupline='$grupline', ket='$ket' where idline = '$id'";
+                $sql1       = "UPDATE master_line SET nama='$namaline', grupline='$grupline',  where id='$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
@@ -83,11 +81,11 @@
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM master_line WHERE namaline='$namaline'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM master_line WHERE nama='$namaline'"));
                 if ($cek > 0){
                     $warning           = "Nama Line sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO $tabelnya values ('', '$namaline', '', '','','')";
+                    $sql1   = "INSERT INTO master_line values ('', '$namaline', '$grupline', NOW(),'$author')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed    = "Submission success";
@@ -207,7 +205,7 @@
                                         <div class="row">
 
                                             <!-- Input Group -->
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
 
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
@@ -220,7 +218,7 @@
 
                                             </div>
                                             <!-- End Input Group -->
-                                            <div class="col-md-3">
+                                            <div class="col-md-6">
 
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
@@ -246,18 +244,7 @@
                                             <!-- End Input Group -->
 
                                             <!-- Input Group -->
-                                            <div class="col-md-5">
-
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                    <label for="ket" class="col-sm-12 col-form-label">Keterangan</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="textarea" class="form-control form-control-sm" id="ket" name="ket" value="<?php echo $ket ?>">
-                                                    </div>
-                                                </div>
-                                                <!-- End Input Item -->
-
-                                            </div>
+                                          
                                             <!-- End Input Group -->
 
                                             <!-- Submit Button -->
@@ -289,7 +276,6 @@
                                                 <th scope="col">#</th>
                                                 <th scope="col">Name Line</th>
                                                 <th scope="col">Grup Line</th>
-                                                <th scope="col">Ket</th>
                                                 <th scope="col">Author</th>
                                                 
                                             </tr>
@@ -301,21 +287,19 @@
                                             $q2     = mysqli_query($conn, $sql2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
-                                                $id             = $r2['idline'];
-                                                $namaline       = $r2['namaline'];
+                                                $id             = $r2['id'];
+                                                $namaline       = $r2['nama'];
                                                 $grupcode       = $r2['grupline'];
-                                                $ket            = $r2['ket'];
-                                                $author         = $r2['authorid'];
+                                                $author         = $r2['author'];
                                             ?>
                                                 <tr>
                                                     <td scope="row">
                                                         <a href="add-lineprd.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
-                                                        <a href="add-lineprd.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
+                                                        <a href="add-lineprd.php?op=delete&id=<?php echo $id ?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
                                                     </td>
                                                     <th scope="row"><?php echo $order++ ?></th>
                                                     <td scope="row"><?php echo $namaline  ?></td>
                                                     <td scope="row"><?php echo $grupcode ?></td>
-                                                    <td scope="row"><?php echo $ket ?></td>
                                                     <td scope="row"><?php echo $author ?></td>
                                                 </tr>
                                             <?php
