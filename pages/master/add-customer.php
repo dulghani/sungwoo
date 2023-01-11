@@ -77,7 +77,7 @@
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM customer WHERE namacust='$namacust' or custcode='$custcode'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM master_customer WHERE namacust='$namacust' or custcode='$custcode'"));
                 if ($cek > 0){
                     $error           = "Nama Customer atau kode Customer sudah ada";
                 }else {
