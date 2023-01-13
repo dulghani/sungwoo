@@ -14,12 +14,14 @@
 <!-- PHP Function -->
 <?php
     
-    $namacust       = "";
-    $custcode       = "";
-    $kota           = "";
+    $nama           = "";
+    $code           = "";
+    $cust           = "";
     $author         = $_SESSION['name'];
     $error          = "";
     $succeed        = "";
+    $warning        = "";
+    $tabelnya       = "master_event";
 
     
     if (isset($_GET['op'])) {
@@ -31,7 +33,7 @@
     // DELETE FUNCTION
     if($op == 'delete'){
         $id         = $_GET['id'];
-        $sql1       = "DELETE FROM master_customer where idcust = '$id'";
+        $sql1       = "DELETE FROM $tabelnya where id = '$id'";
         $q1         = mysqli_query($conn,$sql1);
         if($q1){
             $succeed = "Delete Success";
@@ -43,12 +45,12 @@
     // EDIT FUNCTION
     if ($op == 'edit') {
         $id             = $_GET['id'];
-        $sql1           = "SELECT * FROM master_customer where idcust = '$id'";
+        $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $namacust       = $r1['namacust'];
-        $custcode       = $r1['custcode'];
-        $kota           = $r1['alamat'];
+        $nama           = $r1['nama'];
+        $code           = $r1['code'];
+        $cust           = $r1['customer'];
         $author         = $_SESSION['name'];
 
         if ($id == '') {
@@ -58,30 +60,30 @@
 
     // SUBMIT FUNCTION
     if (isset($_POST['submit'])) {
-        $namacust       = STRTOUPPER($_POST['namacust']);
-        $custcode       = STRTOUPPER($_POST['custcode']);
-        $kota           = $_POST['kota'];
+        $nama           = STRTOUPPER($_POST['nama']);
+        $code           = STRTOUPPER($_POST['code']);
+        $cust           = $_POST['cust'];
         $author         = $_SESSION['name'];
 
-        if ($namacust && $custcode && $kota && $author) {
+        if ($nama && $code && $cust && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE master_customer SET namacust='$namacust', custcode='$custcode', alamat='$kota', edit_at=NOW(), edit_by='$author' where idcust = '$id'";
+                $sql1       = "UPDATE $tabelnya SET nama='$nama', code='$code', customer='$cust', edit_at=NOW(), edit_by='$author' where id = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
-                    header("refresh:3;url=add-customer.php");
+                    header("refresh:3;url=add-event.php");
                 } else {
                     $error  = "Update error";
                 }
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM customer WHERE namacust='$namacust' or custcode='$custcode'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE nama='$nama' or code='$code'"));
                 if ($cek > 0){
-                    $error           = "Nama Customer atau kode Customer sudah ada";
+                    $error           = "Nama Supplier atau kode Supplier sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO master_customer values ('', '$namacust', '$custcode', '$kota', NOW(), '$author','','')";
+                    $sql1   = "INSERT INTO $tabelnya values ('', '$nama', '$code', '$cust', NOW(), '$author','','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed      = "Submission success";
@@ -133,7 +135,7 @@
                 <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Customer</h2>
+                        <h2>Supplier</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
@@ -189,41 +191,44 @@
 
                                             <!-- Input Group -->
                                             <div class="col-md-4">
-
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="custname" class="col-sm-12 col-form-label">Nama Customer</label>
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="namacust" name="namacust" value="<?php echo $namacust ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
-
                                             </div>
                                             <!-- End Input Group -->
-                                            <div class="col-md-3">
-
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                    <label for="custcode" class="col-sm-12 col-form-label">Customer Kode</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="custcode" name="custcode" value="<?php echo $custcode ?>">
-                                                    </div>
-                                                </div>
-                                                <!-- End Input Item -->
-
-                                            </div>
-                                            <!-- End Input Group -->
-
                                             <!-- Input Group -->
-                                            <div class="col-md-5">
-
+                                            <div class="col-md-4">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="date_to_whs" class="col-sm-12 col-form-label">Alamat</label>
+                                                    <label for="code" class="col-sm-12 col-form-label">Code Event</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="alamat" name="kota" value="<?php echo $kota ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="code" name="code" value="<?php echo $code ?>">
                                                     </div>
+                                                </div>
+                                                <!-- End Input Item -->
+                                            </div>
+                                            <!-- End Input Group -->
+                                            <!-- Input Group -->
+                                            <div class="col-md-3">
+                                                <div class="mb-1 row">
+                                                    <label for="cust" class="col-sm-12 col-form-label">Customer Code</label>
+                                                    <select name="cust" id="cust" class="form-control-sm form-control">
+                                                        <option value="<?php echo $cust ?>"><?php echo $cust ?></option>
+                                                            <?php
+                                                            $sql = mysqli_query($conn, "SELECT idcust,custcode FROM master_customer order by create_at");
+                                                            while ($data = mysqli_fetch_assoc($sql)) {
+                                                                ?>
+                                                                <option value="<?php echo $data['idcust']; ?>"><?php echo $data['custcode']; ?></option>
+
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
                                                 </div>
                                                 <!-- End Input Item -->
 
@@ -231,9 +236,9 @@
                                             <!-- End Input Group -->
 
                                             <!-- Submit Button -->
-                                            <div class="col-sm-12 d-flex justify-content-end">
-                                                <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-submit col-md-3 col-lg-2" />
-                                            </div>
+                                            <div class="col-md-12 d-flex justify-content-end">
+                                                        <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-submit btn-control btn-control-sm col-md-3 col-lg-2" />
+                                                    </div>
                                             <!-- End Submit Button -->
                                         </div>
 
@@ -252,14 +257,14 @@
                             <div class="container shadow px-4 py-4">
                                 <!-- Table Content -->
                                 <div class="table-responsive-lg">                                
-                                    <table id="customer_table" class="table-sm display nowrap table-hover">
+                                    <table id="show_table" class="table-sm display nowrap table-hover">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Name Customer</th>
-                                                <th scope="col">Costomer Code</th>
-                                                <th scope="col">Kota</th>
+                                                <th scope="col">Name Supplier</th>
+                                                <th scope="col">Event Code</th>
+                                                <th scope="col">customer</th>
                                                 <th scope="col">Author</th>
                                                 
                                             </tr>
@@ -267,25 +272,26 @@
 
                                         <tbody>
                                             <?php
-                                            $sql2   = "SELECT * FROM master_customer ORDER BY create_at DESC";
+                                            $sql2   = "SELECT u.id, u.nama, u.code, c.custcode, u.author FROM master_event as u join master_customer as c on u.customer=c.idcust ORDER BY u.create_at DESC";
                                             $q2     = mysqli_query($conn, $sql2);
+                                            $q3     = mysqli_num_rows($q2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
-                                                $id             = $r2['idcust'];
-                                                $namacust       = $r2['namacust'];
-                                                $custcode       = $r2['custcode'];
-                                                $kota           = $r2['alamat'];
+                                                $id             = $r2['id'];
+                                                $nama           = $r2['nama'];
+                                                $code           = $r2['code'];
+                                                $cust           = $r2['custcode'];
                                                 $author         = $r2['author'];
                                             ?>
                                                 <tr>
                                                     <td scope="row">
-                                                        <a href="add-customer.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
-                                                        <a href="add-customer.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
+                                                        <a href="add-event.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
+                                                        <a href="add-event.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
                                                     </td>
                                                     <th scope="row"><?php echo $order++ ?></th>
-                                                    <td scope="row"><?php echo $namacust  ?></td>
-                                                    <td scope="row"><?php echo $custcode ?></td>
-                                                    <td scope="row"><?php echo $kota ?></td>
+                                                    <td scope="row"><?php echo $nama  ?></td>
+                                                    <td scope="row"><?php echo $code ?></td>
+                                                    <td scope="row"><?php echo $cust ?></td>
                                                     <td scope="row"><?php echo $author ?></td>
                                                 </tr>
                                             <?php
@@ -320,7 +326,7 @@
 
     <script>
     $(document).ready(function () {
-    $('#customer_table').DataTable({
+    $('#show_table').DataTable({
         scrollY: 430,
         scrollX: true,
     });

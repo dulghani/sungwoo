@@ -47,6 +47,9 @@
 												<li class="dropdown-item">
 													<a href="../master/add-supplier.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Supplier</a>
 												</li>
+												<li class="dropdown-item">
+													<a href="../master/add-satuan.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Satuan</a>
+												</li>
 											</ul>
 											</div>
 									</div>

@@ -14,15 +14,13 @@
 <!-- PHP Function -->
 <?php
     
-    $namaline       = "";
-    $grupline       = "";
-    $ket            = "";
+    $nama           = "";
+    $code            = "";
     $author         = $_SESSION['name'];
-    $status         = "";
     $error          = "";
     $succeed        = "";
-    $warning        = "";
-    $tabelnya       = "master_line";
+    $tabelnya       = "master_satuan";
+
     
     if (isset($_GET['op'])) {
         $op = $_GET['op'];
@@ -48,11 +46,10 @@
         $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $namaline       = $r1['nama'];
-        $grupline       = $r1['grupline'];
-        // $status         = $r1['status'];
-        $author         = $r1['author'];
-        
+        $nama           = $r1['nama'];
+        $code           = $r1['code'];
+        $author         = $_SESSION['name'];
+
         if ($id == '') {
             $error = "Data tidak ditemukan";
         }
@@ -60,35 +57,33 @@
 
     // SUBMIT FUNCTION
     if (isset($_POST['submit'])) {
-
-        $namaline       = STRTOUPPER($_POST['nama']);
-        $grupline       = $_POST['grupline'];
-        // $status         = $_POST['status'];
+        $nama           = STRTOUPPER($_POST['nama']);
+        $code           = $_POST['code'];
         $author         = $_SESSION['name'];
-        
 
-        if ($namaline && $grupline && $author) {
+
+        if ($nama && $code && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE master_line SET nama='$namaline', grupline='$grupline',  where id='$id'";
+                $sql1       = "UPDATE $tabelnya SET nama='$nama', code='$ket', edit_at=NOW(), edit_by='$author' where id = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
-                    header("refresh:3;url=add-lineprd.php");
+                    header("refresh:3;url=add-satuan.php");
                 } else {
                     $error  = "Update error";
                 }
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM master_line WHERE nama='$namaline'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE nama='$nama' or code='$code'"));
                 if ($cek > 0){
-                    $warning           = "Nama Line sudah ada";
+                    $error           = "Nama satuan atau code satuan sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO master_line values ('', '$namaline', '$grupline', NOW(),'$author')";
+                    $sql1   = "INSERT INTO $tabelnya values ('', '$nama', '$code', NOW(), '$author','','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
-                        $succeed    = "Submission success";
+                        $succeed      = "Submission success";
 
                     } else {
                         $error      = "Submission error";
@@ -137,7 +132,7 @@
                 <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Line Produksi</h2>
+                        <h2>Satuan</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
@@ -173,19 +168,6 @@
                                         //5 : detik
                                     }
                                     ?>
-                                    
-                                    <?php
-                                    if ($warning) {
-                                    ?>
-
-                                        <div class="alert alert-warning  d-flex align-items-center mb-2" role="alert">
-                                            <?php echo $warning ?>
-                                        </div>
-
-                                    <?php
-                                        //header("refresh:3;url=qc-reject-material.php");
-                                    }
-                                    ?>
 
                                     <?php
                                     if ($succeed) {
@@ -205,37 +187,28 @@
                                         <div class="row">
 
                                             <!-- Input Group -->
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
 
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="nama" class="col-sm-12 col-form-label">Nama Line</label>
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Satuan</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $namaline ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
 
                                             </div>
                                             <!-- End Input Group -->
-                                            <div class="col-md-6">
+                                           
+                                            <!-- Input Group -->
+                                            <div class="col-md-4">
 
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="grupcode" class="col-sm-12 col-form-label">Group Line Kode</label>
+                                                    <label for="code" class="col-sm-12 col-form-label">Kode Satuan</label>
                                                     <div class="col-sm-12">
-                                                        <select name="grupline" id="grupline" class="form-control-sm form-control">
-                                                        <option value="<?php echo $grupline ?>"><?php echo $grupline ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT idgruline,nama_gru FROM master_grupline order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['nama_gru']; ?>"><?php echo $data['nama_gru']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
+                                                        <input type="text" class="form-control form-control-sm" id="code" name="code" value="<?php echo $code ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
@@ -244,13 +217,13 @@
                                             <!-- End Input Group -->
 
                                             <!-- Input Group -->
-                                          
+                                           
                                             <!-- End Input Group -->
 
                                             <!-- Submit Button -->
-                                            <div class="col-sm-12 d-flex justify-content-end">
-                                                <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-submit col-md-3 col-lg-2" />
-                                            </div>
+                                            <div class="col-md-12 d-flex justify-content-end">
+                                                        <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-submit btn-control btn-control-sm col-md-3 col-lg-2" />
+                                                    </div>
                                             <!-- End Submit Button -->
                                         </div>
 
@@ -269,13 +242,13 @@
                             <div class="container shadow px-4 py-4">
                                 <!-- Table Content -->
                                 <div class="table-responsive-lg">                                
-                                    <table id="lineprd_table" class="table-sm display nowrap table-hover">
+                                    <table id="show_table" class="table-sm display nowrap table-hover">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Name Line</th>
-                                                <th scope="col">Grup Line</th>
+                                                <th scope="col">Name Satuan</th>
+                                                <th scope="col">Kode</th>
                                                 <th scope="col">Author</th>
                                                 
                                             </tr>
@@ -288,18 +261,18 @@
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
                                                 $id             = $r2['id'];
-                                                $namaline       = $r2['nama'];
-                                                $grupline       = $r2['grupline'];
+                                                $nama           = $r2['nama'];
+                                                $code           = $r2['code'];
                                                 $author         = $r2['author'];
                                             ?>
                                                 <tr>
                                                     <td scope="row">
-                                                        <a href="add-lineprd.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
-                                                        <a href="add-lineprd.php?op=delete&id=<?php echo $id ?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
+                                                        <a href="add-satuan.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
+                                                        <a href="add-satuan.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
                                                     </td>
                                                     <th scope="row"><?php echo $order++ ?></th>
-                                                    <td scope="row"><?php echo $namaline  ?></td>
-                                                    <td scope="row"><?php echo $grupline ?></td>
+                                                    <td scope="row"><?php echo $nama  ?></td>
+                                                    <td scope="row"><?php echo $code ?></td>
                                                     <td scope="row"><?php echo $author ?></td>
                                                 </tr>
                                             <?php
@@ -334,8 +307,8 @@
 
     <script>
     $(document).ready(function () {
-    $('#lineprd_table').DataTable({
-        scrollY: 400,
+    $('#show_table').DataTable({
+        scrollY: 430,
         scrollX: true,
     });
     });    
