@@ -42,7 +42,7 @@
 													<a href="../master/add-event.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Event</a>
 												</li>
 												<li class="dropdown-item">
-													<a href="../master/add-Barang.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Barang</a>
+													<a href="../master/add-barang.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Barang</a>
 												</li>
 												<li class="dropdown-item">
 													<a href="../master/add-supplier.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Supplier</a>

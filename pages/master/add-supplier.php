@@ -140,7 +140,7 @@
                 <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Customer</h2>
+                        <h2>Supplier</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->

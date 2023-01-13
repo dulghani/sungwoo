@@ -128,11 +128,11 @@
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE nama='$nama' or code='$code'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE partnanme='$pname' or partnumber='$pnumber'"));
                 if ($cek > 0){
                     $error           = "Nama Supplier atau kode Supplier sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO $tabelnya values ('', '$nama', '$code', '$cust', NOW(), '$author','','')";
+                    $sql1   = "INSERT INTO $tabelnya values ('', '$pnumber', '$pname', '$model', '$kategori','$supplier','$jenis','$customer','$event','$line','$satuan','$lvl0','$lvl1','$lvl2','$lvl3', NOW(), '$author','','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed      = "Submission success";
@@ -184,7 +184,7 @@
                 <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Supplier</h2>
+                        <h2>Barang</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
@@ -242,10 +242,53 @@
                                             <div class="col-md-4">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <label for="name" class="col-sm-12 col-form-label">Partnumber</label>
                                                     <div class="col-sm-12">
                                                         <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
                                                     </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Partname</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="model" class="col-sm-12 col-form-label">Model</label>
+                                                    <div class="col-sm-12">
+                                                        <select name="model" id="model" class="form-control-sm form-control">
+                                                        <option value="<?php echo $model ?>"><?php echo $model ?></option>
+                                                            <?php
+                                                            $sql = mysqli_query($conn, "SELECT id,nama FROM master_model order by create_at");
+                                                            while ($data = mysqli_fetch_assoc($sql)) {
+                                                                ?>
+                                                                <option value="<?php echo $data['id']; ?>"><?php echo $data['nama']; ?></option>
+
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Satuan</label>
+                                                    <div class="col-sm-12">
+                                                    <select name="satuan" id="cust" class="form-control-sm form-control">
+                                                        <option value="<?php echo $satuan ?>"><?php echo $satuan ?></option>
+                                                            <?php
+                                                            $sql = mysqli_query($conn, "SELECT id,code FROM master_satuan order by create_at");
+                                                            while ($data = mysqli_fetch_assoc($sql)) {
+                                                                ?>
+                                                                <option value="<?php echo $data['id']; ?>"><?php echo $data['code']; ?></option>
+
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    
                                                 </div>
                                                 <!-- End Input Item -->
                                             </div>
@@ -254,31 +297,62 @@
                                             <div class="col-md-4">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="code" class="col-sm-12 col-form-label">Code Event</label>
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="code" name="code" value="<?php echo $code ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
                                             </div>
-                                            <!-- End Input Group -->
+                                            <div class="col-md-4">
+                                                <!-- Input Item -->
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                    </div>
+                                                </div>
+                                                <!-- End Input Item -->
+                                            </div>
                                             <!-- Input Group -->
                                             <div class="col-md-3">
-                                                <div class="mb-1 row">
-                                                    <label for="cust" class="col-sm-12 col-form-label">Customer Code</label>
-                                                    <select name="cust" id="cust" class="form-control-sm form-control">
-                                                        <option value="<?php echo $cust ?>"><?php echo $cust ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT idcust,custcode FROM master_customer order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['idcust']; ?>"><?php echo $data['custcode']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                </div>
+                                                
                                                 <!-- End Input Item -->
 
                                             </div>
