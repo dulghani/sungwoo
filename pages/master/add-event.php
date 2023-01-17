@@ -33,7 +33,7 @@
     // DELETE FUNCTION
     if($op == 'delete'){
         $id         = $_GET['id'];
-        $sql1       = "DELETE FROM $tabelnya where id = '$id'";
+        $sql1       = "DELETE FROM $tabelnya where idevent = '$id'";
         $q1         = mysqli_query($conn,$sql1);
         if($q1){
             $succeed = "Delete Success";
@@ -45,11 +45,11 @@
     // EDIT FUNCTION
     if ($op == 'edit') {
         $id             = $_GET['id'];
-        $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
+        $sql1           = "SELECT * FROM $tabelnya where idevent = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $nama           = $r1['nama'];
-        $code           = $r1['code'];
+        $nama           = $r1['namaevent'];
+        $code           = $r1['eventcode'];
         $cust           = $r1['customer'];
         $author         = $_SESSION['name'];
 
@@ -68,7 +68,7 @@
         if ($nama && $code && $cust && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE $tabelnya SET nama='$nama', code='$code', customer='$cust', edit_at=NOW(), edit_by='$author' where id = '$id'";
+                $sql1       = "UPDATE $tabelnya SET namaevent='$nama', eventcode='$code', customer='$cust', edit_at=NOW(), edit_by='$author' where idevent = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
@@ -79,7 +79,7 @@
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE nama='$nama' or code='$code'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE namaevent='$nama' or eventcode='$code'"));
                 if ($cek > 0){
                     $error           = "Nama Supplier atau kode Supplier sudah ada";
                 }else {
@@ -135,7 +135,7 @@
                 <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Supplier</h2>
+                        <h2>Event</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
@@ -195,7 +195,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                        <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $nama ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
@@ -207,17 +207,17 @@
                                                 <div class="mb-1 row">
                                                     <label for="code" class="col-sm-12 col-form-label">Code Event</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="code" name="code" value="<?php echo $code ?>">
+                                                        <input type="text" class="form-control" id="code" name="code" value="<?php echo $code ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
                                             </div>
                                             <!-- End Input Group -->
                                             <!-- Input Group -->
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="mb-1 row">
                                                     <label for="cust" class="col-sm-12 col-form-label">Customer Code</label>
-                                                    <select name="cust" id="cust" class="form-control-sm form-control">
+                                                    <select name="cust" id="cust" class="custom-select form-control">
                                                         <option value="<?php echo $cust ?>"><?php echo $cust ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idcust,custcode FROM master_customer order by create_at");
@@ -272,14 +272,14 @@
 
                                         <tbody>
                                             <?php
-                                            $sql2   = "SELECT u.id, u.nama, u.code, c.custcode, u.author FROM master_event as u join master_customer as c on u.customer=c.idcust ORDER BY u.create_at DESC";
+                                            $sql2   = "SELECT u.idevent, u.namaevent, u.eventcode, c.custcode, u.author FROM master_event as u join master_customer as c on u.customer=c.idcust where u.idevent!='0' ORDER BY u.create_at DESC";
                                             $q2     = mysqli_query($conn, $sql2);
                                             $q3     = mysqli_num_rows($q2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
-                                                $id             = $r2['id'];
-                                                $nama           = $r2['nama'];
-                                                $code           = $r2['code'];
+                                                $id             = $r2['idevent'];
+                                                $nama           = $r2['namaevent'];
+                                                $code           = $r2['eventcode'];
                                                 $cust           = $r2['custcode'];
                                                 $author         = $r2['author'];
                                             ?>

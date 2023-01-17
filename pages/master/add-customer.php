@@ -267,7 +267,7 @@
 
                                         <tbody>
                                             <?php
-                                            $sql2   = "SELECT * FROM master_customer ORDER BY create_at DESC";
+                                            $sql2   = "SELECT * FROM master_customer where idcust!='0' ORDER BY create_at DESC";
                                             $q2     = mysqli_query($conn, $sql2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {

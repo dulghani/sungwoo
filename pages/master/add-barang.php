@@ -14,24 +14,13 @@
 <!-- PHP Function -->
 <?php
     
-    $pnumber        = "";
     $pname          = "";
-    $model          = "";
+    $pnumber        = "";
     $kategori       = "";
-    $supplier       = "";
-    $jenis          = "";
-    $cust           = "";
-    $event          = "";
-    $satuan         = "";
-    $line           = "";
-    $lvl0           = "";
-    $lvl1           = "";
-    $lvl2           = "";
-    $lvl3           = "";
+    $ket            = "";
     $author         = $_SESSION['name'];
     $error          = "";
     $succeed        = "";
-    $warning        = "";
     $tabelnya       = "master_barang";
 
     
@@ -61,18 +50,8 @@
         $r1             = mysqli_fetch_array($q1);
         $pnumber        = $r1['partnumber'];
         $pname          = $r1['partname'];
-        $model          = $r1['model'];
         $kategori       = $r1['kategori'];
-        $supplier       = $r1['suppplier'];
-        $jenis          = $r1['jenis'];
-        $cust           = $r1['customer'];
-        $event          = $r1['event'];
-        $satuan         = $r1['satuan'];
-        $line           = $r1['line'];
-        $lvl0           = $r1['level0'];
-        $lvl1           = $r1['level1'];
-        $lvl2           = $r1['level2'];
-        $lvl3           = $r1['level3'];
+        $ket            = $r1['ket'];
         $author         = $_SESSION['name'];
 
         if ($id == '') {
@@ -82,42 +61,17 @@
 
     // SUBMIT FUNCTION
     if (isset($_POST['submit'])) {
-        $pname          = STRTOUPPER($_POST['pname']);
-        $pnumber        = STRTOUPPER($_POST['pnumber']);
-        $cust           = $_POST['cust'];
-        $model          = $_POST['model'];
-        $kategori       = $_POST['kategori'];
-        $supplier       = $_POST['suppplier'];
-        $jenis          = $_POST['jenis'];
-        $event          = $_POST['event'];
-        $satuan         = $_POST['satuan'];
-        $line           = $_POST['line'];
-        $lvl0           = $_POST['level0'];
-        $lvl1           = $_POST['level1'];
-        $lvl2           = $_POST['level2'];
-        $lvl3           = $_POST['level3'];
-        $author         = $_SESSION['name'];
+        $pnumber           = STRTOUPPER($_POST['pnumber']);
+        $pname             = STRTOUPPER($_POST['pname']);
+        $kategori          = $_POST['kategori'];
+        $ket               = $_POST['ket'];
+        $author            = $_SESSION['name'];
 
-        if ($pname && $pnumber && $satuan && $kategori) {
+
+        if ($pnumber && $pname && $kategori && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE $tabelnya SET partnumber='$pnumber',
-                                                    partname='$pname', 
-                                                    customer='$cust',
-                                                    model='$model',
-                                                    kategori='$kategori',
-                                                    supplier='$pname', 
-                                                    jenis='$cust',
-                                                    'event'='$model',
-                                                    satuan='$pnumber',
-                                                    'line'='$pname', 
-                                                    level0='$lvl0',
-                                                    level1='$lvl1',
-                                                    level2='$lvl2',
-                                                    level3='$lvl3',
-                                                    edit_at=NOW(), 
-                                                    edit_by='$author' 
-                                                    where id = '$id'";
+                $sql1       = "UPDATE $tabelnya SET partnumber='$pnumber', partname='$pname', ket='$ket', edit_at=NOW(), edit_by='$author' where id = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
@@ -128,11 +82,11 @@
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE partnanme='$pname' or partnumber='$pnumber'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE partnumber='$pnumber'"));
                 if ($cek > 0){
-                    $error           = "Nama Supplier atau kode Supplier sudah ada";
+                    $error           = "Partnumber sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO $tabelnya values ('', '$pnumber', '$pname', '$model', '$kategori','$supplier','$jenis','$customer','$event','$line','$satuan','$lvl0','$lvl1','$lvl2','$lvl3', NOW(), '$author','','')";
+                    $sql1   = "INSERT INTO $tabelnya values ('', '$pnumber', '$pname','','','$kategori','','','','','', '$ket','', NOW(), '$author','','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed      = "Submission success";
@@ -181,7 +135,7 @@
 
 
                 <!-- Main Section-->
-                <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
+                <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="50">
                     <!-- Header-->  
                     <div class="page-header pt-3">
                         <h2>Barang</h2>
@@ -240,122 +194,64 @@
 
                                             <!-- Input Group -->
                                             <div class="col-md-4">
+
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
                                                     <label for="name" class="col-sm-12 col-form-label">Partnumber</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                        <input type="text" class="form-control" id="pnumber" name="pnumber" value="<?php echo $pnumber ?>">
                                                     </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Partname</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="model" class="col-sm-12 col-form-label">Model</label>
-                                                    <div class="col-sm-12">
-                                                        <select name="model" id="model" class="form-control-sm form-control">
-                                                        <option value="<?php echo $model ?>"><?php echo $model ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT id,nama FROM master_model order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['id']; ?>"><?php echo $data['nama']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                    
-                                                </div>
-                                                
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Satuan</label>
-                                                    <div class="col-sm-12">
-                                                    <select name="satuan" id="cust" class="form-control-sm form-control">
-                                                        <option value="<?php echo $satuan ?>"><?php echo $satuan ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT id,code FROM master_satuan order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['id']; ?>"><?php echo $data['code']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                    
                                                 </div>
                                                 <!-- End Input Item -->
+
                                             </div>
                                             <!-- End Input Group -->
                                             <!-- Input Group -->
                                             <div class="col-md-4">
+
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
+                                                    <label for="name" class="col-sm-12 col-form-label">Partname</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
+                                                        <input type="text" class="form-control" id="pname" name="pname" value="<?php echo $pname ?>">
                                                     </div>
                                                 </div>
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <!-- End Input Item -->
-                                            </div>
-                                            <div class="col-md-4">
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="name" class="col-sm-12 col-form-label">Nama Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $nama ?>">
-                                                    </div>
-                                                </div>
-                                                <!-- End Input Item -->
-                                            </div>
-                                            <!-- Input Group -->
-                                            <div class="col-md-3">
-                                                
                                                 <!-- End Input Item -->
 
                                             </div>
+                                            <!-- End Input Group -->
+                                            <div class="col-md-4">
+                                                <!-- Input Item -->
+                                                <div class="mb-1 row">
+                                                    <label for="ktgr" class="col-sm-12 col-form-label">Kategori</label>
+                                                    <div class="col-sm-12">
+                                                        <select name="kategori" id="kategori" class="form-control custom-select">
+                                                        <option value="<?php echo $kategori ?>"><?php echo $kategori ?></option>
+                                                        <option value="Bahan Baku">Bahan Baku</option>
+                                                        <option value="Barang Setangah Jadi(WIP)">Barang Setangah Jadi(WIP)</option>
+                                                        <option value="Barang Jadi">Barang Jadi</option>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <!-- Input Group -->
+                                            <div class="col-lg-12">
+
+                                                <!-- Input Item -->
+                                                <div class="mb-1 row">
+                                                    <label for="ket" class="col-sm-12 col-form-label">Keterangan</label>
+                                                    <div class="col-lg-12">
+                                                        <input type="text" class="form-control form-control-md" id="ket" name="ket" value="<?php echo $ket ?>">
+                                                    </div>
+                                                </div>
+                                                <!-- End Input Item -->
+
+                                            </div>
+                                            <!-- End Input Group -->
+
+                                            <!-- Input Group -->
+                                           
                                             <!-- End Input Group -->
 
                                             <!-- Submit Button -->
@@ -385,9 +281,10 @@
                                             <tr>
                                                 <th scope="col"></th>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Name Supplier</th>
-                                                <th scope="col">Event Code</th>
-                                                <th scope="col">customer</th>
+                                                <th scope="col">Partnumber</th>
+                                                <th scope="col">Partname</th>
+                                                <th scope="col">Kategori</th>
+                                                <th scope="col">Keterangan</th>
                                                 <th scope="col">Author</th>
                                                 
                                             </tr>
@@ -395,26 +292,27 @@
 
                                         <tbody>
                                             <?php
-                                            $sql2   = "SELECT u.id, u.nama, u.code, c.custcode, u.author FROM master_event as u join master_customer as c on u.customer=c.idcust ORDER BY u.create_at DESC";
+                                            $sql2   = "SELECT * FROM $tabelnya ORDER BY create_at DESC";
                                             $q2     = mysqli_query($conn, $sql2);
-                                            $q3     = mysqli_num_rows($q2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
                                                 $id             = $r2['id'];
-                                                $nama           = $r2['nama'];
-                                                $code           = $r2['code'];
-                                                $cust           = $r2['custcode'];
+                                                $pnumber           = $r2['partnumber'];
+                                                $pname           = $r2['partname'];
+                                                $kategori           = $r2['kategori'];
+                                                $ket           = $r2['ket'];
                                                 $author         = $r2['author'];
                                             ?>
                                                 <tr>
                                                     <td scope="row">
-                                                        <a href="add-event.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
-                                                        <a href="add-event.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
+                                                        <a href="add-barang-detail.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
+                                                        <a href="add-barang.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
                                                     </td>
                                                     <th scope="row"><?php echo $order++ ?></th>
-                                                    <td scope="row"><?php echo $nama  ?></td>
-                                                    <td scope="row"><?php echo $code ?></td>
-                                                    <td scope="row"><?php echo $cust ?></td>
+                                                    <td scope="row"><?php echo $pnumber  ?></td>
+                                                    <td scope="row"><?php echo $pname  ?></td>
+                                                    <td scope="row"><?php echo $kategori ?></td>
+                                                    <td scope="row"><?php echo $ket ?></td>
                                                     <td scope="row"><?php echo $author ?></td>
                                                 </tr>
                                             <?php

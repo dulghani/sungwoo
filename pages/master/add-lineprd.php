@@ -33,7 +33,7 @@
     // DELETE FUNCTION
     if($op == 'delete'){
         $id         = $_GET['id'];
-        $sql1       = "DELETE FROM $tabelnya where id = '$id'";
+        $sql1       = "DELETE FROM $tabelnya where idline = '$id'";
         $q1         = mysqli_query($conn,$sql1);
         if($q1){
             $succeed = "Delete Success";
@@ -45,10 +45,10 @@
     // EDIT FUNCTION
     if ($op == 'edit') {
         $id             = $_GET['id'];
-        $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
+        $sql1           = "SELECT * FROM $tabelnya where idline = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $namaline       = $r1['nama'];
+        $namaline       = $r1['namaline'];
         $grupline       = $r1['grupline'];
         // $status         = $r1['status'];
         $author         = $r1['author'];
@@ -70,7 +70,7 @@
         if ($namaline && $grupline && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE master_line SET nama='$namaline', grupline='$grupline',  where id='$id'";
+                $sql1       = "UPDATE master_line SET namaline='$namaline', grupline='$grupline'  where idline='$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
@@ -211,7 +211,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="nama" class="col-sm-12 col-form-label">Nama Line</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="nama" name="nama" value="<?php echo $namaline ?>">
+                                                        <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $namaline ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
@@ -224,7 +224,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="grupcode" class="col-sm-12 col-form-label">Group Line Kode</label>
                                                     <div class="col-sm-12">
-                                                        <select name="grupline" id="grupline" class="form-control-sm form-control">
+                                                        <select name="grupline" id="grupline" class="form-control-sm form-control custom-select">
                                                         <option value="<?php echo $grupline ?>"><?php echo $grupline ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idgruline,nama_gru FROM master_grupline order by create_at");
@@ -287,8 +287,8 @@
                                             $q2     = mysqli_query($conn, $sql2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
-                                                $id             = $r2['id'];
-                                                $namaline       = $r2['nama'];
+                                                $id             = $r2['idline'];
+                                                $namaline       = $r2['namaline'];
                                                 $grupline       = $r2['grupline'];
                                                 $author         = $r2['author'];
                                             ?>

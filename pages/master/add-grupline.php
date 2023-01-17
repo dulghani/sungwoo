@@ -283,7 +283,7 @@
 
                                         <tbody>
                                             <?php
-                                            $sql2   = "SELECT * FROM master_grupline ORDER BY create_at DESC";
+                                            $sql2   = "SELECT * FROM master_grupline where idgruline!='0' ORDER BY create_at DESC";
                                             $q2     = mysqli_query($conn, $sql2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {

@@ -18,8 +18,8 @@
 	  
 				  	<!-- Topbar Title-->
 				  	<a class="navbar-brand me-auto ms-lg-3 ms-2 text-uppercase fw-bold"
-						href="../pages/admin/index.php">
-						PORTOFOLIO
+						href="../admin/index.php">
+						Sungwoo Indonesia
 				   	</a>
 					<!-- End Topbar Title-->
 				  
@@ -40,7 +40,7 @@
 					<div class="collapse navbar-collapse" id="topbar">
 						<ul class="navbar-nav d-flex ms-auto"> 
 							<!-- Topbar Item -->
-							<li class="nav-item dropdown">
+							<li class="nav-item dropdown me-auto text-uppercase fw-bold">
 								<a class="nav-link dropdown-toggle"
 								href="#" id="navbarDropdown"
 								role="button"

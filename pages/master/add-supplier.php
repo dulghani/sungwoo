@@ -34,7 +34,7 @@
     // DELETE FUNCTION
     if($op == 'delete'){
         $id         = $_GET['id'];
-        $sql1       = "DELETE FROM $tabelnya where id = '$id'";
+        $sql1       = "DELETE FROM $tabelnya where idsup = '$id'";
         $q1         = mysqli_query($conn,$sql1);
         if($q1){
             $succeed = "Delete Success";
@@ -46,10 +46,10 @@
     // EDIT FUNCTION
     if ($op == 'edit') {
         $id             = $_GET['id'];
-        $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
+        $sql1           = "SELECT * FROM $tabelnya where idsup = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $nama           = $r1['nama'];
+        $nama           = $r1['namasup'];
         $code           = $r1['supcode'];
         $almt           = $r1['alamat'];
         $kota           = $r1['kota'];
@@ -73,7 +73,7 @@
         if ($nama && $code && $kota && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE $tabelnya SET nama='$nama', supcode='$code', alamat='$almt', kota='$kota', telp='$telp', edit_at=NOW(), edit_by='$author' where id = '$id'";
+                $sql1       = "UPDATE $tabelnya SET namasup='$nama', supcode='$code', alamat='$almt', kota='$kota', telp='$telp', edit_at=NOW(), edit_by='$author' where idsup = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
@@ -84,7 +84,7 @@
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE nama='$nama' or supcode='$code'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE namasup='$nama' or supcode='$code'"));
                 if ($cek > 0){
                     $error           = "Nama Supplier atau kode Supplier sudah ada";
                 }else {
@@ -292,12 +292,12 @@
 
                                         <tbody>
                                             <?php
-                                            $sql2   = "SELECT * FROM $tabelnya ORDER BY create_at DESC";
+                                            $sql2   = "SELECT * FROM $tabelnya where idsup!='0' ORDER BY create_at DESC";
                                             $q2     = mysqli_query($conn, $sql2);
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
-                                                $id             = $r2['id'];
-                                                $nama           = $r2['nama'];
+                                                $id             = $r2['idsup'];
+                                                $nama           = $r2['namasup'];
                                                 $code           = $r2['supcode'];
                                                 $almt           = $r2['alamat'];
                                                 $kota           = $r2['kota'];

@@ -26,6 +26,7 @@
   
   <!-- Template Main CSS File -->
   <link href="../../assets/css/style.css" rel="stylesheet">
+  <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
 
   <!-- Font Icon -->
   <link rel="stylesheet" href="../../fonts/material-icon/css/material-design-iconic-font.min.css">
