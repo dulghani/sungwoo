@@ -14,26 +14,26 @@
 <!-- PHP Function -->
 <?php
     
-    $pnumber        = "";
     $pname          = "";
-    $model          = "";
-    $kategori       = "";
-    $supplier       = "";
-    $jenis          = "";
-    $cust           = "";
-    $event          = "";
-    $satuan         = "";
-    $line           = "";
+    $pnumber        = "";
+    $pcode          = "";
+    $posisi         = "";
     $posisi1        = "";
     $posisi2        = "";
-    $posisi         = "";
-    $lvl3           = "";
+    $pss_ex         = "";
+    $model          = "";
+    $grupline       = "";
+    $unikno         = "";
+    $event          = "";
+    $perjam         = "";
+    $lotbox         = "";
+    $cust           = "";
     $ket            = "";
     $author         = $_SESSION['name'];
     $error          = "";
-    $succeed        = "";
     $warning        = "";
-    $tabelnya       = "master_barang";
+    $succeed        = "";
+    $tabelnya       = "master_bom";
 
     
     if (isset($_GET['op'])) {
@@ -62,19 +62,20 @@
         $r1             = mysqli_fetch_array($q1);
         $pnumber        = $r1['partnumber'];
         $pname          = $r1['partname'];
-        $model          = $r1['model'];
-        $ket            = $r1['ket'];
         $kategori       = $r1['kategori'];
-        $supplier       = $r1['supplier'];
-        $jenis          = $r1['jenis'];
-        $cust           = $r1['customer'];
-        $event          = $r1['namaevent'];
+        $pcode          = $r1['partcode'];
+        $model          = $r1['model'];
+        $grupline       = $r1['grupline'];
+        $unikno         = $r1['unikno'];
+        $event          = $r1['event'];
+        $perjam         = $r1['perjam'];
+        $lotbox         = $r1['lotbox'];
+        $cust           = $r1['cust'];
         $posisi         = $r1['posisi'];
         $pss_ex         = explode(" ", $posisi);
         $posisi1        = $pss_ex[0]. ' ';
         $posisi2        = $pss_ex[1];
-        $satuan         = $r1['satuan'];
-        $line           = $r1['grupline'];
+        $ket            = $r1['ket'];
         $author         = $_SESSION['name'];
 
         if ($id == '') {
@@ -84,55 +85,43 @@
 
     // SUBMIT FUNCTION
     if (isset($_POST['submit'])) {
-        $pname          = STRTOUPPER($_POST['pname']);
-        $pnumber        = STRTOUPPER($_POST['pnumber']);
-        $cust           = $_POST['cust'];
-        $model          = $_POST['model'];
-        $ket            = STRTOUPPER($_POST['ket']);
-        $kategori       = $_POST['kategori'];
-        $supplier       = $_POST['supplier'];
-        $jenis          = $_POST['jenis'];
-        $event          = $_POST['event'];
-        $satuan         = $_POST['satuan'];
-        $line           = $_POST['line'];
-        $posisi1        = $_POST['pss1'];
-        $posisi2        = $_POST['posisi'];
-        $posisi         = $posisi1.$posisi2;
-        $author         = $_SESSION['name'];
+        $pnumber           = STRTOUPPER($_POST['pnumber']);
+        $pname             = STRTOUPPER($_POST['pname']);
+        $kategori          = $_POST['kategori'];
+        $pcode             = $_POST['partcode'];
+        $model             = $_POST['model'];
+        $grupline          = $_POST['grupline'];
+        $unikno            = $_POST['unikno'];
+        $event             = $_POST['event'];
+        $perjam            = $_POST['perjam'];
+        $lotbox            = $_POST['lotbox'];
+        $cust              = $_POST['cust'];
+        $posisi1           = $_POST['posisi1'];
+        $posisi2           = $_POST['posisi2'];
+        $posisi            = $posisi1. $posisi2;
+        $ket               = $_POST['ket'];
+        $author            = $_SESSION['name'];
 
-        if ($pname && $pnumber && $satuan && $kategori) {
+
+        if ($pnumber && $pname && $kategori && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE $tabelnya SET partnumber='$pnumber',
-                                                    partname='$pname',
-                                                    ket='$ket', 
-                                                    customer='$cust',
-                                                    model='$model',
-                                                    kategori='$kategori',
-                                                    supplier='$supplier', 
-                                                    jenis='$jenis',
-                                                    namaevent='$event',
-                                                    satuan='$satuan',
-                                                    grupline='$line', 
-                                                    posisi='$posisi',
-                                                    edit_at=NOW(), 
-                                                    edit_by='$author' 
-                                                    where id = '$id'";
+                $sql1       = "UPDATE $tabelnya SET partnumber='$pnumber', partname='$pname', ket='$ket', edit_at=NOW(), edit_by='$author' where id = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
-                    //header("refresh:3;url=add-barang-detail.php");
+                    header("refresh:3;url=add-barang.php");
                 } else {
-                    $error  = 'Update error :'.  mysqli_error($conn);
+                    $error  = "Update error";
                 }
             }
             //Inster Data
             else { 
                 $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE partnumber='$pnumber'"));
                 if ($cek > 0){
-                    $error           = "Parnumber sudah ada";
+                    $error           = "Partnumber sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO $tabelnya values ('', '$pnumber', '$pname', '$model','$posisi', '$ket', '$kategori','$supplier','$jenis','$cust','$event','$line','$satuan','$lvl0','$lvl1','$lvl2','$lvl3', NOW(), '$author','','')";
+                    $sql1   = "INSERT INTO $tabelnya values ('', '$pnumber', '$pname','','','$kategori','','','','','', '$ket','', NOW(), '$author','','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed      = "Submission success";
@@ -184,95 +173,13 @@
                 <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="50">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2><a class="h5 mb-0 text-gray-800" href="add-barang.php">Barang/</a> <span class="h3 mb-0 text-gray-800">Detail Barang</span></h2>
+                        <h2>Barang</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
                     
                     <!-- Main Content --> 
                     <div class="row justify-content-md-center">
-                        <!-- Table
-                       <div class="col-lg-12 col-md-12">
-                            <div class="container shadow px-4 py-4">
-                                Table Content
-                                <div class="table-responsive-lg">                                
-                                    <table id="show_table" class="table-sm display nowrap table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Partnumber</th>
-                                                <th scope="col">Partname</th>
-                                                <th scope="col">Model</th>
-                                                <th scope="col">Keterangan</th>
-                                                <th scope="col">Satuan</th>
-                                                <th scope="col">Kategori</th>
-                                                <th scope="col">Supplier</th>
-                                                <th scope="col">Jenis</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Line</th>
-                                                <th scope="col">Event</th>
-                                                <th scope="col">Author</th>
-                                                
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <?php
-                                            $sql2   = "SELECT b.id,b.partnumber,b.partname,b.kategori,b.jn   FROM $tabelnya as b 
-                                                       outer join master_customer as c on b.customer=c.idcust 
-                                                       outer join master_model as m on b.model=m.idmodel
-                                                       outer join master_satuan as t on b.satuan=t.idsat
-                                                       outer join master_supplier as s on b.supplier=s.idsup
-                                                       outer join master_grupline as l on b.line=l.idgruline
-                                                       outer join master_event as e on b.event=e.idevent
-                                                       ORDER BY b.create_at DESC";
-                                            $q2     = mysqli_query($conn, $sql2);
-                                            $order   = 1;
-                                            while ($r2 = mysqli_fetch_array($q2)) {
-                                                $id             = $r2['b.id'];
-                                                $pnumber        = $r2['b.partnumber'];
-                                                $pname          = $r2['b.partname'];
-                                                $kategori       = $r2['b.kategori'];
-                                                $jenis          = $r2['b.jenis'];
-                                                $ket            = $r2['b.ket'];
-                                                $cust           = $r2['c.custcode'];
-                                                $model          = $r2['m.namamodel'];
-                                                $satuan         = $r2['t.codesat'];
-                                                $supplier       = $r2['s.supcode'];
-                                                $line           = $r2['l.nama_gru'];
-                                                $event          = $r2['e.namaevent'];
-                                                $author         = $r2['b.author'];
-                                            ?>
-                                                <tr>
-                                                    <td scope="row">
-                                                        <a href="add-barang.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
-                                                        <a href="add-barang.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
-                                                    </td>
-                                                    <th scope="row"><?php echo $order++ ?></th>
-                                                    <td scope="row"><?php echo $pnumber ?></td>
-                                                    <td scope="row"><?php echo $pname ?></td>
-                                                    <td scope="row"><?php echo $model ?></td>
-                                                    <td scope="row"><?php echo $ket ?></td>
-                                                    <td scope="row"><?php echo $satuan ?></td>
-                                                    <td scope="row"><?php echo $kategori ?></td>
-                                                    <td scope="row"><?php echo $supplier ?></td>
-                                                    <td scope="row"><?php echo $jenis ?></td>
-                                                    <td scope="row"><?php echo $cust ?></td>
-                                                    <td scope="row"><?php echo $line ?></td>
-                                                    <td scope="row"><?php echo $event ?></td>
-                                                    <td scope="row"><?php echo $author ?></td>
-                                                </tr>
-                                            <?php
-                                            }
-                                            ?>
-                                        </tbody>                                           
-                                    </table>
-                                </div>
-                                End Table Content
-                            </div>
-                        </div>
-                        End Table -->
 
                         <!-- Card Input -->
                         <div class="col-lg-9 col-md-12 mb-3">
@@ -559,13 +466,70 @@
 
                                     </form>
                                     <!-- End Input Form -->
-
                                 </div>
                                 <!-- End Card Body -->
 
                             </div>
                         </div>
                         <!-- End Card Input -->
+
+                        <!-- Table -->
+                        <div class="col-lg-12 col-md-12">
+                            <div class="container shadow px-4 py-4">
+                                <!-- Table Content -->
+                                <div class="table-responsive-lg">                                
+                                    <table id="show_table" class="table-sm display nowrap table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Partnumber</th>
+                                                <th scope="col">Partname</th>
+                                                <th scope="col">Kategori</th>
+                                                <th scope="col">Keterangan</th>
+                                                <th scope="col">Author</th>
+                                                
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <?php
+                                            $sql2   = "SELECT * FROM $tabelnya ORDER BY create_at DESC";
+                                            $q2     = mysqli_query($conn, $sql2);
+                                            $order   = 1;
+                                            while ($r2 = mysqli_fetch_array($q2)) {
+                                                $id             = $r2['id'];
+                                                $pnumber           = $r2['partnumber'];
+                                                $pname           = $r2['partname'];
+                                                $kategori           = $r2['kategori'];
+                                                $ket           = $r2['ket'];
+                                                $author         = $r2['author'];
+                                            ?>
+                                                <tr>
+                                                    <td scope="row">
+                                                        <a href="add-barang-detail.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
+                                                        <a href="add-barang.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
+                                                    </td>
+                                                    <th scope="row"><?php echo $order++ ?></th>
+                                                    <td scope="row"><?php echo $pnumber  ?></td>
+                                                    <td scope="row"><?php echo $pname  ?></td>
+                                                    <td scope="row"><?php echo $kategori ?></td>
+                                                    <td scope="row"><?php echo $ket ?></td>
+                                                    <td scope="row"><?php echo $author ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                        </tbody>                                           
+                                    </table>
+                                </div>
+                                <!-- End Table Content -->
+                            </div>
+                        </div>
+                        <!-- End Table -->
+
+
+                        
 
                     </div>
                     <!-- End Main Content --> 
@@ -586,7 +550,7 @@
     <script>
     $(document).ready(function () {
     $('#show_table').DataTable({
-        scrollY: true,
+        scrollY: 430,
         scrollX: true,
     });
     });    

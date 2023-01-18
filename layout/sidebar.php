@@ -50,6 +50,12 @@
 												<li class="dropdown-item">
 													<a href="../master/add-satuan.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Satuan</a>
 												</li>
+												<li class="dropdown-item">
+													<a href="../master/add-gudang.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Gudang</a>
+												</li>
+												<li class="dropdown-item">
+													<a href="../master/add-bom.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Bill Of material</a>
+												</li>
 											</ul>
 											</div>
 									</div>
