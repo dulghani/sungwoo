@@ -62,7 +62,6 @@
         $r1             = mysqli_fetch_array($q1);
         $pnumber        = $r1['partnumber'];
         $pname          = $r1['partname'];
-        $kategori       = $r1['kategori'];
         $pcode          = $r1['partcode'];
         $model          = $r1['model'];
         $grupline       = $r1['grupline'];
@@ -70,7 +69,7 @@
         $event          = $r1['event'];
         $perjam         = $r1['perjam'];
         $lotbox         = $r1['lotbox'];
-        $cust           = $r1['cust'];
+        $cust           = $r1['customer'];
         $posisi         = $r1['posisi'];
         $pss_ex         = explode(" ", $posisi);
         $posisi1        = $pss_ex[0]. ' ';
@@ -87,7 +86,6 @@
     if (isset($_POST['submit'])) {
         $pnumber           = STRTOUPPER($_POST['pnumber']);
         $pname             = STRTOUPPER($_POST['pname']);
-        $kategori          = $_POST['kategori'];
         $pcode             = $_POST['partcode'];
         $model             = $_POST['model'];
         $grupline          = $_POST['grupline'];
@@ -170,10 +168,10 @@
 
 
                 <!-- Main Section-->
-                <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="50">
+                <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="25">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Barang</h2>
+                        <h2>Bill Of Material</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
@@ -228,20 +226,49 @@
                                         <div class="row">
 
                                             <!-- Input Group -->
-                                            <div class="col-md-4">
+                                            <div class="col-md-4" style="border-right : 1px solid #adb5bd">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
                                                     <label for="pnumber" class="col-sm-12 col-form-label">Partnumber</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="pnumber" name="pnumber" value="<?php echo $pnumber ?>">
-                                                    </div>
+                                                    <select name="partnumber" id="partnumber" class="form-control-sm form-control">
+                                                        <option value="<?php echo $grupline ?>"><?php echo $grupline ?></option>
+                                                            <?php
+                                                            $sql = mysqli_query($conn, "SELECT id,partnumber FROM master_barang where kategori='Barang Jadi' or kategori='Barang Setangah Jadi(WIP)' order by create_at");
+                                                            while ($data = mysqli_fetch_assoc($sql)) {
+                                                                ?>
+                                                                <option value="<?php echo $data['partnumber']; ?>"><?php echo $data['partnumber']; ?></option>
+
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                     </div>
                                                 </div>
                                                 <div class="mb-1 row">
                                                     <label for="pname" class="col-sm-12 col-form-label">Partname</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="pname" name="pname" value="<?php echo $pname ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="partname" name="partname">
                                                     </div>
                                                 </div>
+                                                <div class="mb-1 row">
+                                                    <label for="pcode" class="col-sm-12 col-form-label">Partcode</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="pcode" name="pcode" value="<?php echo $pname ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="unikno" class="col-sm-12 col-form-label">Unique No</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="unkino" name="unikno" value="<?php echo $pname ?>">
+                                                    </div>
+                                                </div>
+                                                <!-- End Input Item -->
+                                            </div>
+                                            <!-- End Input Group -->
+                                            <!-- Input Group -->
+                                            <div class="col-md-4" style="border-right : 1px solid #adb5bd">
+                                                <!-- Input Item -->
                                                 <div class="mb-1 row">
                                                     <label for="model" class="col-sm-12 col-form-label">Model</label>
                                                     <div class="col-sm-12">
@@ -258,14 +285,34 @@
                                                             ?>
                                                         </select>
                                                     </div>
-                                                    
                                                 </div>
-                                                
+                                                <div class="mb-1 row">
+                                                    <label for="posisi" class="col-sm-12 col-form-label">Posisi</label>
+                                                    <div class="col-sm-6">
+                                                        <select name="pss1" id="pss1" class="form-control-sm form-control">
+                                                            <option value="<?php echo $posisi1 ?>"><?php echo $posisi1 ?></option>
+                                                            <option value="F ">F</option>
+                                                            <option value="R ">R</option>
+                                                            <option value="R2 ">R2</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <select name="posisi" id="posisi" class="form-control-sm form-control">
+                                                            <option value="<?php echo $posisi2 ?>"><?php echo $posisi2 ?></option>
+                                                            <option value="LH">LH</option>
+                                                            <option value="RH">RH</option>
+                                                            <option value="CTR">CTR</option>
+                                                            <option value="LH-CTR">LH-CTR</option>
+                                                            <option value="RH-CTR">RH-CTR</option>
+                                                            <option value="LH-RH">LH-RH</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="mb-1 row">
                                                     <label for="line" class="col-sm-12 col-form-label">Line</label>
                                                     <div class="col-sm-12">
                                                     <select name="line" id="line" class="form-control-sm form-control">
-                                                        <option value="<?php echo $line ?>"><?php echo $line ?></option>
+                                                        <option value="<?php echo $grupline ?>"><?php echo $grupline ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idgruline,nama_gru FROM master_grupline where idgruline!='0' order by create_at");
                                                             while ($data = mysqli_fetch_assoc($sql)) {
@@ -279,140 +326,7 @@
                                                     </div>
                                                     
                                                 </div>
-                                                <div class="mb-1 row">
-                                                    <label for="ket" class="col-sm-12 col-form-label">Keterangan</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="ket" name="ket" value="<?php echo $ket ?>">
-                                                    </div>
-                                                </div>
-                                                <!-- End Input Item -->
-                                            </div>
-                                            <!-- End Input Group -->
-                                            <!-- Input Group -->
-                                            <div class="col-md-4">
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                    <label for="satuan" class="col-sm-12 col-form-label">Satuan</label>
-                                                    <div class="col-sm-12">
-                                                    <select name="satuan" id="satuan" class="form-control-sm form-control">
-                                                        <option value="<?php echo $satuan ?>"><?php echo $satuan ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT idsat,codesat FROM master_satuan where idsat!='0' order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['codesat']; ?>"><?php echo $data['codesat']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="posisi" class="col-sm-12 col-form-label">Posisi</label>
-                                                    <div class="col-sm-6">
-                                                    <select name="pss1" id="pss1" class="form-control-sm form-control">
-                                                        <option value="<?php echo $posisi1 ?>"><?php echo $posisi1 ?></option>
-                                                        <option value="F ">F</option>
-                                                        <option value="R ">R</option>
-                                                        <option value="R2 ">R2</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                    <select name="posisi" id="posisi" class="form-control-sm form-control">
-                                                        <option value="<?php echo $posisi2 ?>"><?php echo $posisi2 ?></option>
-                                                        <option value="LH">LH</option>
-                                                        <option value="RH">RH</option>
-                                                        <option value="CTR">CTR</option>
-                                                        <option value="LH-CTR">LH-CTR</option>
-                                                        <option value="RH-CTR">RH-CTR</option>
-                                                        <option value="LH-RH">LH-RH</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="author" class="col-sm-12 col-form-label">Author</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="ket" name="author" readonly value="<?php echo $author ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                <!-- <label for="level2" class="col-sm-12 col-form-label">Level 2</label>
-                                                    <div class="col-sm-12">
-                                                    <select name="level2" id="level2" class="form-control-sm form-control">
-                                                        <option value="<?php echo $lvl2 ?>"><?php echo $lvl2 ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT idsat,codesat FROM master_satuan order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['idsat']; ?>"><?php echo $data['codesat']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div> -->
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <!-- <label for="name" class="col-sm-12 col-form-label">Level 3</label>
-                                                    <div class="col-sm-12">
-                                                    <select name="level3" id="level3" class="form-control-sm form-control">
-                                                        <option value="<?php echo $lvl3 ?>"><?php echo $lvl3 ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT idsat,codesat FROM master_satuan order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['idsat']; ?>"><?php echo $data['codesat']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div> -->
-                                                </div>
-                                                <!-- End Input Item -->
-                                            </div>
-                                            <div class="col-md-4">
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                    <label for="ktgr" class="col-sm-12 col-form-label">kategori</label>
-                                                    <div class="col-sm-12">
-                                                        <select name="kategori" id="kategori" class="form-control-sm form-control">
-                                                        <option value="<?php echo $kategori ?>"><?php echo $kategori ?></option>
-                                                        <option value="Bahan Baku">Bahan Baku</option>
-                                                        <option value="Barang Setangah Jadi(WIP)">Barang Setangah Jadi(WIP)</option>
-                                                        <option value="Barang Jadi">Barang Jadi</option>
-                                                        </select>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="supplier" class="col-sm-12 col-form-label">Supplier</label>
-                                                    <div class="col-sm-12">
-                                                    <select name="supplier" id="supplier" class="form-control-sm form-control">
-                                                        <option value="<?php echo $supplier ?>"><?php echo $supplier ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT idsup,supcode FROM master_supplier where idsup!='0' order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['supcode']; ?>"><?php echo $data['supcode']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="jenis" class="col-sm-12 col-form-label">Jenis</label>
-                                                    <div class="col-sm-12">
-                                                    <select name="jenis" id="katjenisegori" class="form-control-sm form-control">
-                                                        <option value="<?php echo $jenis ?>"><?php echo $jenis ?></option>
-                                                        <option value="Lokal">Lokal</option>
-                                                        <option value="Import">Import</option>
-                                                    </select>
-                                                    </div>
-                                                </div>
+                                                
                                                 <div class="mb-1 row">
                                                     <label for="cust" class="col-sm-12 col-form-label">Customer</label>
                                                     <div class="col-sm-12">
@@ -430,6 +344,24 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                
+                                                
+                                                <!-- End Input Item -->
+                                            </div>
+                                            <div class="col-md-4">
+                                                <!-- Input Item -->
+                                                <div class="mb-1 row">
+                                                        <label for="perjam" class="col-sm-12 col-form-label">Kapasitas /jam</label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control form-control-sm" id="perjam" name="perjam" value="<?php echo $ket ?>">
+                                                        </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                        <label for="lotbox" class="col-sm-12 col-form-label">Qty /box</label>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control form-control-sm" id="lotbox" name="lotbox" value="<?php echo $ket ?>">
+                                                        </div>
+                                                </div>
                                                 <div class="mb-1 row">
                                                     <label for="event" class="col-sm-12 col-form-label">Event</label>
                                                     <div class="col-sm-12">
@@ -445,6 +377,12 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-1 row">
+                                                    <label for="ket" class="col-sm-12 col-form-label">Keterangan</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm" id="ket" name="ket" value="<?php echo $ket ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
@@ -483,9 +421,17 @@
                                             <tr>
                                                 <th scope="col"></th>
                                                 <th scope="col">#</th>
+                                                <th scope="col">Partcode</th>
                                                 <th scope="col">Partnumber</th>
                                                 <th scope="col">Partname</th>
-                                                <th scope="col">Kategori</th>
+                                                <th scope="col">Unique No</th>
+                                                <th scope="col">Model</th>
+                                                <th scope="col">Posisi</th>
+                                                <th scope="col">Line</th>
+                                                <th scope="col">Qty /box</th>
+                                                <th scope="col">Kapasitas /jam</th>
+                                                <th scope="col">Event</th>
+                                                <th scope="col">Customer</th>
                                                 <th scope="col">Keterangan</th>
                                                 <th scope="col">Author</th>
                                                 
@@ -499,10 +445,18 @@
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
                                                 $id             = $r2['id'];
-                                                $pnumber           = $r2['partnumber'];
-                                                $pname           = $r2['partname'];
-                                                $kategori           = $r2['kategori'];
-                                                $ket           = $r2['ket'];
+                                                $pnumber        = $r1['partnumber'];
+                                                $pname          = $r2['partname'];
+                                                $pcode          = $r2['partcode'];
+                                                $model          = $r2['model'];
+                                                $grupline       = $r2['grupline'];
+                                                $unikno         = $r2['unikno'];
+                                                $event          = $r2['event'];
+                                                $perjam         = $r2['perjam'];
+                                                $lotbox         = $r2['lotbox'];
+                                                $cust           = $r2['cust'];
+                                                $posisi         = $r2['posisi'];
+                                                $ket            = $r2['ket'];
                                                 $author         = $r2['author'];
                                             ?>
                                                 <tr>
@@ -511,9 +465,18 @@
                                                         <a href="add-barang.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
                                                     </td>
                                                     <th scope="row"><?php echo $order++ ?></th>
+                                                    <td scope="row"><?php echo $pcode ?></td>
                                                     <td scope="row"><?php echo $pnumber  ?></td>
                                                     <td scope="row"><?php echo $pname  ?></td>
-                                                    <td scope="row"><?php echo $kategori ?></td>
+                                                    <td scope="row"><?php echo $unikno ?></td>
+                                                    <td scope="row"><?php echo $model ?></td>
+                                                    <td scope="row"><?php echo $posisi ?></td>
+                                                    <td scope="row"><?php echo $grupline ?></td>
+                                                    <td scope="row"><?php echo $posisi ?></td>
+                                                    <td scope="row"><?php echo $lotbox ?></td>
+                                                    <td scope="row"><?php echo $perjam ?></td>
+                                                    <td scope="row"><?php echo $event ?></td>
+                                                    <td scope="row"><?php echo $cust ?></td>
                                                     <td scope="row"><?php echo $ket ?></td>
                                                     <td scope="row"><?php echo $author ?></td>
                                                 </tr>
@@ -555,7 +518,29 @@
     });
     });    
     </script>
-   
+   <script>
+		$(function() {
+			$("#partnumber").change(function(){
+				var nis = $("#partnumber").val();
+ 
+				$.ajax({
+					url: 'proses-bom.php',
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						'partnumber': partnumber
+					},
+					success: function (master_barang) {
+						$("#partname").val(master_barang['partname']);
+					}
+				});
+			});
+ 
+			$("form").submit(function(){
+				alert("Keep learning");
+			});
+		});
+	</script>
 
     <!-- Template Main JS File -->
     <?php include '../../layout/js.php' ?>
