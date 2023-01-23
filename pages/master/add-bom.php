@@ -61,7 +61,6 @@
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
         $pnumber        = $r1['partnumber'];
-        $pname          = $r1['partname'];
         $pcode          = $r1['partcode'];
         $model          = $r1['model'];
         $grupline       = $r1['grupline'];
@@ -84,27 +83,27 @@
 
     // SUBMIT FUNCTION
     if (isset($_POST['submit'])) {
-        $pnumber           = STRTOUPPER($_POST['pnumber']);
-        $pname             = STRTOUPPER($_POST['pname']);
-        $pcode             = $_POST['partcode'];
+        $pnumber           = STRTOUPPER($_POST['partnumber']);
+        $pcode             = STRTOUPPER($_POST['partcode']);
+        $pname             = $_POST['partname'];
         $model             = $_POST['model'];
-        $grupline          = $_POST['grupline'];
-        $unikno            = $_POST['unikno'];
+        $grupline          = $_POST['line'];
+        $unikno            = STRTOUPPER($_POST['unikno']);
         $event             = $_POST['event'];
         $perjam            = $_POST['perjam'];
         $lotbox            = $_POST['lotbox'];
         $cust              = $_POST['cust'];
-        $posisi1           = $_POST['posisi1'];
-        $posisi2           = $_POST['posisi2'];
+        $posisi1           = $_POST['pss1'];
+        $posisi2           = $_POST['pss2'];
         $posisi            = $posisi1. $posisi2;
         $ket               = $_POST['ket'];
         $author            = $_SESSION['name'];
 
 
-        if ($pnumber && $pname && $kategori && $author) {
+        if ($pnumber && $perjam && $lotbox && $grupline && $author) {
             //Update Data
             if ($op == 'edit') { 
-                $sql1       = "UPDATE $tabelnya SET partnumber='$pnumber', partname='$pname', ket='$ket', edit_at=NOW(), edit_by='$author' where id = '$id'";
+                $sql1       = "UPDATE $tabelnya SET partnumber='$pnumber', ket='$ket', edit_at=NOW(), edit_by='$author' where id = '$id'";
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
@@ -119,7 +118,7 @@
                 if ($cek > 0){
                     $error           = "Partnumber sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO $tabelnya values ('', '$pnumber', '$pname','','','$kategori','','','','','', '$ket','', NOW(), '$author','','')";
+                    $sql1   = "INSERT INTO $tabelnya values ('','$pcode', '$pnumber','$pname', '$model','$grupline','$ket','$unikno','$event','$perjam','$lotbox','$cust','$posisi', NOW(), '$author','','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed      = "Submission success";
@@ -229,38 +228,27 @@
                                             <div class="col-md-4" style="border-right : 1px solid #adb5bd">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="pnumber" class="col-sm-12 col-form-label">Partnumber</label>
+                                                    <label for="partnumber" class="col-sm-12 col-form-label">Partnumber</label>
                                                     <div class="col-sm-12">
-                                                    <select name="partnumber" id="partnumber" class="form-control-sm form-control">
-                                                        <option value="<?php echo $grupline ?>"><?php echo $grupline ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT id,partnumber FROM master_barang where kategori='Barang Jadi' or kategori='Barang Setangah Jadi(WIP)' order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['partnumber']; ?>"><?php echo $data['partnumber']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                     </div>
+                                                       <input type="text" class="form-control form-control-sm" id="partnumber" name="partnumber" onkeyup="autofill()" value="<?php echo $pnumber ?>">
+                                                    </div>
                                                 </div>
                                                 <div class="mb-1 row">
                                                     <label for="pname" class="col-sm-12 col-form-label">Partname</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="partname" name="partname">
+                                                        <input type="text" class="form-control form-control-sm" id="partname" name="partname" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="mb-1 row">
                                                     <label for="pcode" class="col-sm-12 col-form-label">Partcode</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="pcode" name="pcode" value="<?php echo $pname ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="partcode" name="partcode" value="<?php echo $pcode ?>">
                                                     </div>
                                                 </div>
                                                 <div class="mb-1 row">
                                                     <label for="unikno" class="col-sm-12 col-form-label">Unique No</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="unkino" name="unikno" value="<?php echo $pname ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="unikno" name="unikno" value="<?php echo $unikno ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
@@ -297,7 +285,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <select name="posisi" id="posisi" class="form-control-sm form-control">
+                                                        <select name="pss2" id="pss2" class="form-control-sm form-control">
                                                             <option value="<?php echo $posisi2 ?>"><?php echo $posisi2 ?></option>
                                                             <option value="LH">LH</option>
                                                             <option value="RH">RH</option>
@@ -423,7 +411,7 @@
                                                 <th scope="col">#</th>
                                                 <th scope="col">Partcode</th>
                                                 <th scope="col">Partnumber</th>
-                                                <th scope="col">Partname</th>
+                                                <th scope="col">partname</th>
                                                 <th scope="col">Unique No</th>
                                                 <th scope="col">Model</th>
                                                 <th scope="col">Posisi</th>
@@ -445,24 +433,25 @@
                                             $order   = 1;
                                             while ($r2 = mysqli_fetch_array($q2)) {
                                                 $id             = $r2['id'];
-                                                $pnumber        = $r1['partnumber'];
-                                                $pname          = $r2['partname'];
+                                                $pnumber        = $r2['partnumber'];
                                                 $pcode          = $r2['partcode'];
+                                                $pname          = $r2['partname'];
                                                 $model          = $r2['model'];
                                                 $grupline       = $r2['grupline'];
                                                 $unikno         = $r2['unikno'];
                                                 $event          = $r2['event'];
                                                 $perjam         = $r2['perjam'];
                                                 $lotbox         = $r2['lotbox'];
-                                                $cust           = $r2['cust'];
+                                                $cust           = $r2['customer'];
                                                 $posisi         = $r2['posisi'];
                                                 $ket            = $r2['ket'];
                                                 $author         = $r2['author'];
                                             ?>
                                                 <tr>
                                                     <td scope="row">
-                                                        <a href="add-barang-detail.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning">Edit</button></a>
-                                                        <a href="add-barang.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger">Delete</button></a>            
+                                                        <a href="add-bom.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-clipboard-plus"></i></button></a>
+                                                        <a href="add-bom.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button></a>
+                                                        <a href="add-bom.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger"><i class="bi bi-x-square"></i></button></a>            
                                                     </td>
                                                     <th scope="row"><?php echo $order++ ?></th>
                                                     <td scope="row"><?php echo $pcode ?></td>
@@ -472,7 +461,6 @@
                                                     <td scope="row"><?php echo $model ?></td>
                                                     <td scope="row"><?php echo $posisi ?></td>
                                                     <td scope="row"><?php echo $grupline ?></td>
-                                                    <td scope="row"><?php echo $posisi ?></td>
                                                     <td scope="row"><?php echo $lotbox ?></td>
                                                     <td scope="row"><?php echo $perjam ?></td>
                                                     <td scope="row"><?php echo $event ?></td>
@@ -509,38 +497,42 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
     $(document).ready(function () {
     $('#show_table').DataTable({
         scrollY: 430,
-        scrollX: true,
+        scrollX: auto,
     });
     });    
     </script>
-   <script>
-		$(function() {
-			$("#partnumber").change(function(){
-				var nis = $("#partnumber").val();
- 
-				$.ajax({
-					url: 'proses-bom.php',
-					type: 'POST',
-					dataType: 'json',
-					data: {
-						'partnumber': partnumber
-					},
-					success: function (master_barang) {
-						$("#partname").val(master_barang['partname']);
-					}
-				});
-			});
- 
-			$("form").submit(function(){
-				alert("Keep learning");
-			});
-		});
-	</script>
+
+    <!--Autofill -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript">
+            function autofill(){
+                var partnumber = $("#partnumber").val();
+                $.ajax({
+                    url: 'autofill.php',
+                    data:"partnumber="+partnumber ,
+                }).success(function (data) {
+                    var json = data,
+                    obj = JSON.parse(json);
+                    $('#partname').val(obj.partname);
+                });
+            }
+        </script>
+    
+    <!-- AutoComplete -->
+    <script src="../../assets/js/jquery.autocomplete.min.js"></script>
+
+    <script>
+    $(function() {
+        $("#nama").autocomplete({
+            source: 'autocomplete.php'
+         });
+    });
+    </script>
 
     <!-- Template Main JS File -->
     <?php include '../../layout/js.php' ?>

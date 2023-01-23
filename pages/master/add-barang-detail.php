@@ -27,7 +27,7 @@
     $posisi1        = "";
     $posisi2        = "";
     $posisi         = "";
-    $lvl3           = "";
+    $pss_ex         = "";
     $ket            = "";
     $author         = $_SESSION['name'];
     $error          = "";
