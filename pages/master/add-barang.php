@@ -291,7 +291,7 @@
                                                         <select name="kategori" id="kategori" class="form-control custom-select">
                                                         <option value="<?php echo $kategori ?>"><?php echo $kategori ?></option>
                                                         <option value="Bahan Baku">Bahan Baku</option>
-                                                        <option value="Barang Setangah Jadi(WIP)">Barang Setangah Jadi(WIP)</option>
+                                                        <option value="Barang Setangah Jadi(WIP)">Barang Setengah Jadi(WIP)</option>
                                                         <option value="Barang Jadi">Barang Jadi</option>
                                                         </select>
                                                     </div>

@@ -7,7 +7,8 @@ $partnumber = $_GET['partnumber'];
 $query = mysqli_query($conn, "select * from master_barang where partnumber='$partnumber'");
 $pbarang = mysqli_fetch_array($query);
 $data = array(
-            'partname'      =>  @$pbarang['partname'],);
+            'partname'      =>  @$pbarang['partname'],
+            'satuan'        =>  @$pbarang['satuan'],);
 
 //tampil data
 echo json_encode($data);

@@ -14,9 +14,6 @@
 <!-- PHP Function -->
 <?php
     
-    $partnumber     = "";
-    $partname       = "";
-    $satuan         = "";
     $pname          = "";
     $pnumber        = "";
     $pcode          = "";
@@ -35,16 +32,15 @@
     $author         = $_SESSION['name'];
     $qty            = "";
     $idbom          = "";
+    $partnumber     = "";
+    $partname       = "";
+    $satuan         = "";
     $error          = "";
     $warning        = "";
     $succeed        = "";
     $tabelnya       = "master_bom_detail";
+
     
-    if (isset($_GET['opr'])) {
-        $opr = $_GET['opr'];
-    } else {
-        $opr = "";
-    }
     if (isset($_GET['op'])) {
         $op = $_GET['op'];
     } else {
@@ -62,8 +58,9 @@
             $error  = "Delete error";
         }
     }
-    // Detail
-    if ($opr == 'detail') {
+
+    // EDIT FUNCTION
+    if ($op == 'detail') {
         $idbom          = $_GET['idbom'];
         $sql1           = "SELECT * FROM master_bom where id = '$idbom'";
         $q1             = mysqli_query($conn, $sql1);
@@ -89,21 +86,7 @@
             $error = "Data tidak ditemukan";
         }
     }
-    // EDIT FUNCTION
     if ($op == 'edit') {
-        $id             = $_GET['id'];
-        $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
-        $q1             = mysqli_query($conn, $sql1);
-        $r1             = mysqli_fetch_array($q1);
-        $partnumber     = $r1['partnumber'];
-        $partname       = $r1['partname'];
-        $qty            = $r1['qty'];
-        $satuan         = $r1['satuan'];
-        $author         = $_SESSION['name'];
-
-        if ($id == '') {
-            $error = "Data tidak ditemukan";
-        }
     }
 
     // SUBMIT FUNCTION
@@ -122,19 +105,18 @@
                 $q1         = mysqli_query($conn, $sql1);
                 if ($q1) {
                     $succeed = "Update success";
-
-                    header("refresh:3;url=add-bom-detail.php?opr=detail&idbom=$idbom");
+                    header("refresh:3;url=add-barang.php");
                 } else {
                     $error  = "Update error";
                 }
             }
             //Inster Data
             else { 
-                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE partnumber='$partnumber'"));
+                $cek    = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM $tabelnya WHERE partnumber='$pnumber'"));
                 if ($cek > 0){
                     $error           = "Partnumber sudah ada";
                 }else {
-                    $sql1   = "INSERT INTO $tabelnya values ('','$idbom', '$partnumber','$partname', '$qty','$satuan', '$author', NOW(),'$author', NOW())";
+                    $sql1   = "INSERT INTO $tabelnya values ('','$idbom', '$pnumber','$pname', '$qty','$satuan', '$author',NOW(),'','')";
                     $q1     = mysqli_query($conn, $sql1);
                     if ($q1) {
                         $succeed      = "Submission success";
@@ -158,14 +140,14 @@
 <!-- Head Section-->
 <head>
     <?php include '../../layout/header.php' ?>
+    <!-- AutoComplete -->
     <script>
-  $( function() {
-
-    $( "#partnumber" ).autocomplete({
-      source: "autocomplete.php"
+    $(function() {
+        $("#partnumber").autocomplete({
+            source: 'data.php'
+         });
     });
-  });
-  </script>
+    </script>
 </head>
 <!-- End Head Section-->
 
@@ -191,10 +173,10 @@
 
 
                 <!-- Main Section-->
-                <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
+                <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="25">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Coba BOM</h2>
+                        <h2>Bill Of Material</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
@@ -334,18 +316,9 @@
 
                             </div>
                         </div>
-
+                        <!-- End Card Input -->
                         <div class="col-lg-12 col-md-12">
-                            <div class="container shadow px-4 py-3">
-
-                                <!-- Card Header
-                                <div class="card-header">
-                                    Create / Edit Data
-                                </div>
-                                End Card Header -->
-
-                                <!-- Card Body -->
-                                <div class="card-body bg-light">
+                            <div class="container shadow px-4 py-4">
 
                                     <?php
                                     if ($error) {
@@ -375,8 +348,6 @@
                                         //header("refresh:3;url=qc-reject-material.php");
                                     }
                                     ?>
-
-                                    <!-- Input Form -->
                                     <form action="" method="POST">
                                         <div class="row">
 
@@ -386,16 +357,16 @@
                                                 <div class="mb-1 row">
                                                     <label for="partnumber" class="col-sm-12 col-form-label">Partnumber</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="partnumber" name="partnumber" onkeyup="autofill()" value="<?php echo $partnumber ?>">
+                                                        <input type="text" class="form-control form-control-sm" id="partnumber" name="partnumber" value="" >
                                                     </div> 
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
                                                     <label for="partname" class="col-sm-12 col-form-label">Partname</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="partname" name="partname" value="<?php echo $partname ?>" readonly>
+                                                        <input type="text" class="form-control form-control-sm" id="partname" name="partname" value="<?php echo $partname ?>" >
                                                     </div> 
                                                 </div>
                                             </div>
@@ -408,44 +379,32 @@
                                                     </div> 
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-3">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
                                                     <label for="satuan" class="col-sm-12 col-form-label">Satuan</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="satuan" name="satuan" value="<?php echo $satuan ?>" readonly >
+                                                        <input type="text" class="form-control form-control-sm" id="satuan" name="satuan" value="<?php echo $satuan ?>" >
                                                     </div> 
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <div class="mb-1 row">
-                                                <label for="satuan" class="col-sm-12 col-form-label">&nbsp;</label>
-                                                <div class="col-sm-12 d-flex justify-content-end">
-                                                        <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-submit btn-control btn-control-sm" />
+                                            <div class="col-md-12 d-flex justify-content-end">
+                                                        <input type="submit" id="submit" name="submit" value="Submit" class="btn btn-submit btn-control btn-control-sm col-md-3 col-lg-2" />
                                                     </div>
-                                                
-                                                </div>
-                                            </div>
-                                            
 
                                         </div>
 
                                     </form>
                                     <!-- End Input Form -->
-
                                 </div>
-                                <!-- End Card Body -->
-
                             </div>
-                        </div>
-                        <!-- End Card Input -->
-
+                                <!-- End Card Body -->
                         <!-- Table -->
                         <div class="col-lg-12 col-md-12">
                             <div class="container shadow px-4 py-4">
                                 <!-- Table Content -->
                                 <div class="table-responsive-lg">                                
-                                <table id="show_table" class="table-sm display nowrap table-hover">
+                                    <table id="show_table" class="table-sm display nowrap table-hover">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
@@ -471,12 +430,11 @@
                                                 $qty            = $r2['qty'];
                                                 $satuan         = $r2['satuan'];
                                                 $author         = $r2['author'];
-
                                             ?>
                                                 <tr>
                                                     <td scope="row">
-                                                        <a href="add-bom-detail.php?opr=detail&idbom=<?php echo $idbom ?>&op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button></a>
-                                                        <a href="add-bom-detail.php?opr=detail&idbom=<?php echo $idbom ?>&op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger"><i class="bi bi-x-square"></i></button></a>            
+                                                        <a href="add-bom-detail.php?op=edit&idbom=<?php echo $idbom ?>&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button></a>
+                                                        <a href="add-bom-detail.php?op=delete&idbom=<?php echo $idbom ?>&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger"><i class="bi bi-x-square"></i></button></a>            
                                                     </td>
                                                     <th scope="row"><?php echo $order++ ?></th>
                                                     <td scope="row"><?php echo $pnumber  ?></td>
@@ -514,7 +472,6 @@
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-
     <script>
     $(document).ready(function () {
     $('#show_table').DataTable({
@@ -523,8 +480,9 @@
     });
     });    
     </script>
-   <!--Autofill -->
-   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+
+    <!--Autofill -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script type="text/javascript">
             function autofill(){
                 var partnumber = $("#partnumber").val();
@@ -535,7 +493,6 @@
                     var json = data,
                     obj = JSON.parse(json);
                     $('#partname').val(obj.partname);
-                    $('#satuan').val(obj.satuan);
                 });
             }
         </script>

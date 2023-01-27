@@ -3,7 +3,7 @@ include '../../connect.php';
  
 $term = trim(strip_tags($_GET['term']));
 	//query untuk menampilkan data dari tabel country
-	$query = mysqli_query($conn, "SELECT * FROM master_barang WHERE partnumber LIKE '%$term%' limit 10");
+	$query = mysqli_query($conn, "SELECT * FROM master_barang WHERE partnumber LIKE '%$term%' ");
 
 	$array=array();
 	//looping data

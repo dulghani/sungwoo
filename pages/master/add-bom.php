@@ -230,7 +230,18 @@
                                                 <div class="mb-1 row">
                                                     <label for="partnumber" class="col-sm-12 col-form-label">Partnumber</label>
                                                     <div class="col-sm-12">
-                                                       <input type="text" class="form-control form-control-sm" id="partnumber" name="partnumber" onkeyup="autofill()" value="<?php echo $pnumber ?>">
+                                                    <select name="model" id="model" class="form-control custom-select-sm  custom-select" onkeyup="autofill()">
+                                                        <option value="<?php echo $pnumber ?>"><?php echo $pnumber ?></option>
+                                                            <?php
+                                                            $sql = mysqli_query($conn, "SELECT id,partnumber FROM master_barang where kategori='Barang Jadi' or kategori='Barang Setengah Jadi(WIP)' order by create_at");
+                                                            while ($data = mysqli_fetch_assoc($sql)) {
+                                                                ?>
+                                                                <option value="<?php echo $data['partnumber']; ?>"><?php echo $data['partnumber']; ?></option>
+
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </select> 
                                                     </div>
                                                 </div>
                                                 <div class="mb-1 row">
@@ -242,13 +253,13 @@
                                                 <div class="mb-1 row">
                                                     <label for="pcode" class="col-sm-12 col-form-label">Partcode</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="partcode" name="partcode" value="<?php echo $pcode ?>">
+                                                        <input type="text" class="form-control form-control-sm " id="partcode" name="partcode" value="<?php echo $pcode ?>">
                                                     </div>
                                                 </div>
                                                 <div class="mb-1 row">
                                                     <label for="unikno" class="col-sm-12 col-form-label">Unique No</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="unikno" name="unikno" value="<?php echo $unikno ?>">
+                                                        <input type="text" class="form-control" id="unikno" name="unikno" value="<?php echo $unikno ?>">
                                                     </div>
                                                 </div>
                                                 <!-- End Input Item -->
@@ -260,7 +271,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="model" class="col-sm-12 col-form-label">Model</label>
                                                     <div class="col-sm-12">
-                                                        <select name="model" id="model" class="form-control-sm form-control">
+                                                        <select name="model" id="model" class="form-control custom-select-sm  custom-select">
                                                         <option value="<?php echo $model ?>"><?php echo $model ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idmodel,namamodel FROM master_model where idmodel!='0' order by create_at");
@@ -277,7 +288,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="posisi" class="col-sm-12 col-form-label">Posisi</label>
                                                     <div class="col-sm-6">
-                                                        <select name="pss1" id="pss1" class="form-control-sm form-control">
+                                                        <select name="pss1" id="pss1" class="custom-select custom-select-sm form-control">
                                                             <option value="<?php echo $posisi1 ?>"><?php echo $posisi1 ?></option>
                                                             <option value="F ">F</option>
                                                             <option value="R ">R</option>
@@ -285,7 +296,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <select name="pss2" id="pss2" class="form-control-sm form-control">
+                                                        <select name="pss2" id="pss2" class="custom-select custom-select-sm form-control">
                                                             <option value="<?php echo $posisi2 ?>"><?php echo $posisi2 ?></option>
                                                             <option value="LH">LH</option>
                                                             <option value="RH">RH</option>
@@ -299,7 +310,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="line" class="col-sm-12 col-form-label">Line</label>
                                                     <div class="col-sm-12">
-                                                    <select name="line" id="line" class="form-control-sm form-control">
+                                                    <select name="line" id="line" class="custom-select-sm  custom-select form-control-sm form-control">
                                                         <option value="<?php echo $grupline ?>"><?php echo $grupline ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idgruline,nama_gru FROM master_grupline where idgruline!='0' order by create_at");
@@ -318,7 +329,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="cust" class="col-sm-12 col-form-label">Customer</label>
                                                     <div class="col-sm-12">
-                                                        <select name="cust" id="cust" class="form-control-sm form-control">
+                                                        <select name="cust" id="cust" class="custom-select-sm  custom-select form-control">
                                                         <option value="<?php echo $cust ?>"><?php echo $cust ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idcust,custcode FROM master_customer where idcust!='0' order by create_at");
@@ -353,7 +364,7 @@
                                                 <div class="mb-1 row">
                                                     <label for="event" class="col-sm-12 col-form-label">Event</label>
                                                     <div class="col-sm-12">
-                                                        <select name="event" id="event" class="form-control-sm form-control">
+                                                        <select name="event" id="event" class="custom-select-sm  custom-select form-control">
                                                         <option value="<?php echo $event ?>"><?php echo $event ?></option>
                                                             <?php
                                                             $sql = mysqli_query($conn, "SELECT idevent,namaevent FROM master_event where idevent!='0' order by create_at");
@@ -449,7 +460,7 @@
                                             ?>
                                                 <tr>
                                                     <td scope="row">
-                                                        <a href="add-bom.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-clipboard-plus"></i></button></a>
+                                                        <a href="add-bom-detail.php?opr=detail&idbom=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-clipboard-plus"></i></button></a>
                                                         <a href="add-bom.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button></a>
                                                         <a href="add-bom.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger"><i class="bi bi-x-square"></i></button></a>            
                                                     </td>
@@ -502,7 +513,7 @@
     $(document).ready(function () {
     $('#show_table').DataTable({
         scrollY: 430,
-        scrollX: auto,
+        scrollX: true,
     });
     });    
     </script>
@@ -526,13 +537,6 @@
     <!-- AutoComplete -->
     <script src="../../assets/js/jquery.autocomplete.min.js"></script>
 
-    <script>
-    $(function() {
-        $("#nama").autocomplete({
-            source: 'autocomplete.php'
-         });
-    });
-    </script>
 
     <!-- Template Main JS File -->
     <?php include '../../layout/js.php' ?>

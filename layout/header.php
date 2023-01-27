@@ -23,7 +23,7 @@
   <!-- Table -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">  
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">   -->
   
   <!-- Template Main CSS File -->
   <link href="../../assets/css/style.css" rel="stylesheet">
@@ -31,3 +31,8 @@
 
   <!-- Font Icon -->
   <link rel="stylesheet" href="../../fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Autocomplete -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
