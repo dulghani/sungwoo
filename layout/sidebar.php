@@ -105,10 +105,10 @@
 										<div id="PRD" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 											<ul>
 												<li class="dropdown-item">
-													<a href="#"  role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Dashboard</a>
+													<a href="../produksi/aktual-prd.php"  role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Produksi Harian</a>
 												</li>
 												<li class="dropdown-item">
-													<a href="#" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Profile</a>
+													<a href="../maintanance/reg-mesin.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Mesin</a>
 												</li>
 												<li class="dropdown-item">
 													<a href="#" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Profile</a>
@@ -200,13 +200,34 @@
 											</ul>
 										</div>
 									</div>
-									<!-- End Sidebar Item -->  					
-								
-									<!-- Divider -->
+									<!-- End Sidebar Item -->  	
 									<div class="px-2 pt-2">
-									<hr>
+										<a href="#"
+										class="btn btn-nav collapsed w-100 text-start rounded text-black"
+										data-bs-toggle="collapse"
+										data-bs-target="#ACC"
+										role="button"
+										aria-expanded="false"
+										aria-controls="ACC">
+										<span class="bi bi-bank2 me-2"></span>
+										Maintanance</a>
+										  
+										<div id="ACC" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+											<ul>
+												<li class="dropdown-item">
+													<a href="../maintanance/reg-asset.php" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Register Aset</a>
+												</li>
+												<li class="dropdown-item">
+													<a href="#" role="button" class="btn btn-nav-item w-100 text-start rounded text-black btn-sm">Log Aset</a>
+												</li>
+												<li class="dropdown-item">
+													<a href="#" role="button" class="btn btn-nav w-100 text-start rounded text-black btn-sm">Profile</a>
+												</li>
+											</ul>
+										</div>
 									</div>
-									<!-- End Divider -->
+									<!-- End Sidebar Item -->  							
+								
 									
 									<!-- Sidebar Item -->
 									<li class="list-group-item px-2 pt-2">

@@ -142,6 +142,14 @@
 <!-- Head Section-->
 <head>
     <?php include '../../layout/header.php' ?>
+    <script>
+  $( function() {
+
+    $( "#partnumber" ).autocomplete({
+      source: "autocomplete.php"
+    });
+  });
+  </script>
 </head>
 <!-- End Head Section-->
 
@@ -228,26 +236,15 @@
                                             <div class="col-md-4" style="border-right : 1px solid #adb5bd">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="partnumber" class="col-sm-12 col-form-label">Partnumber</label>
+                                                <label for="partnumber" class="col-sm-12 col-form-label">Partnumber</label>
                                                     <div class="col-sm-12">
-                                                    <select name="model" id="model" class="form-control custom-select-sm  custom-select" onkeyup="autofill()">
-                                                        <option value="<?php echo $pnumber ?>"><?php echo $pnumber ?></option>
-                                                            <?php
-                                                            $sql = mysqli_query($conn, "SELECT id,partnumber FROM master_barang where kategori='Barang Jadi' or kategori='Barang Setengah Jadi(WIP)' order by create_at");
-                                                            while ($data = mysqli_fetch_assoc($sql)) {
-                                                                ?>
-                                                                <option value="<?php echo $data['partnumber']; ?>"><?php echo $data['partnumber']; ?></option>
-
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        </select> 
-                                                    </div>
+                                                        <input type="text" class="form-control form-control-sm" id="partnumber" name="partnumber" onkeyup="autofill()" value="<?php echo $pnumber ?>">
+                                                    </div> 
                                                 </div>
                                                 <div class="mb-1 row">
                                                     <label for="pname" class="col-sm-12 col-form-label">Partname</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="partname" name="partname" readonly>
+                                                        <input type="text" class="form-control form-control-sm" id="partname" name="partname" value="<?php echo $pname ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="mb-1 row">
@@ -460,7 +457,7 @@
                                             ?>
                                                 <tr>
                                                     <td scope="row">
-                                                        <a href="add-bom-detail.php?opr=detail&idbom=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-clipboard-plus"></i></button></a>
+                                                        <a alt="Tambah Detail" href="add-bom-detail.php?opr=detail&idbom=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-info"><i class="bi bi-clipboard-plus"></i></button></a>
                                                         <a href="add-bom.php?op=edit&id=<?php echo $id ?>"><button type="button" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button></a>
                                                         <a href="add-bom.php?op=delete&id=<?php echo $id?>" onclick="return confirm('Are you sure you want to delete the data?')"><button type="button" class="btn btn-sm btn-danger"><i class="bi bi-x-square"></i></button></a>            
                                                     </td>
@@ -505,7 +502,7 @@
     <!-- End Main -->
 
     <!--Table -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -519,7 +516,7 @@
     </script>
 
     <!--Autofill -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
         <script type="text/javascript">
             function autofill(){
                 var partnumber = $("#partnumber").val();
@@ -535,10 +532,7 @@
         </script>
     
     <!-- AutoComplete -->
-    <script src="../../assets/js/jquery.autocomplete.min.js"></script>
-
-
-    <!-- Template Main JS File -->
+   <!-- Template Main JS File -->
     <?php include '../../layout/js.php' ?>
  <!-- footer Files -->
  <?php include '../../layout/footer.php' ?>

@@ -8,3 +8,8 @@
 
   <!-- Template Main JS File -->
   <script src="../../assets/js/main.js"></script>
+
+  <!--Table -->
+
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>

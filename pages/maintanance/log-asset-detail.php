@@ -14,31 +14,23 @@
 <!-- PHP Function -->
 <?php
     
-    $partnumber     = "";
-    $partname       = "";
-    $satuan         = "";
-    $pname          = "";
-    $pnumber        = "";
-    $pcode          = "";
-    $posisi         = "";
-    $posisi1        = "";
-    $posisi2        = "";
-    $pss_ex         = "";
-    $model          = "";
-    $grupline       = "";
-    $unikno         = "";
-    $event          = "";
-    $perjam         = "";
-    $lotbox         = "";
-    $cust           = "";
-    $ket            = "";
+    $codeaset       = "";
+    $namaaset       = "";
+    $lokasi         = "";
+    $tgldatang      = "";
+    $kendala        = "";
+    $repair         = "";
+    $status         = "";
+    $operator       = "";
+    $service        = "";
     $author         = $_SESSION['name'];
     $qty            = "";
-    $idbom          = "";
+    $idasset        = "";
     $error          = "";
     $warning        = "";
     $succeed        = "";
-    $tabelnya       = "master_bom_detail";
+    $tabelnya       = "log_asset";
+    $daritabel      = "reg_asset";
     
     if (isset($_GET['opr'])) {
         $opr = $_GET['opr'];
@@ -64,28 +56,17 @@
     }
     // Detail
     if ($opr == 'detail') {
-        $idbom          = $_GET['idbom'];
-        $sql1           = "SELECT * FROM master_bom where id = '$idbom'";
+        $idasset        = $_GET['idasset'];
+        $sql1           = "SELECT * FROM $daritabel where idasset = '$idasset'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $pnumber        = $r1['partnumber'];
-        $pname          = $r1['partname'];
-        $pcode          = $r1['partcode'];
-        $model          = $r1['model'];
-        $grupline       = $r1['grupline'];
-        $unikno         = $r1['unikno'];
-        $event          = $r1['event'];
-        $perjam         = $r1['perjam'];
-        $lotbox         = $r1['lotbox'];
-        $cust           = $r1['customer'];
-        $posisi         = $r1['posisi'];
-        $pss_ex         = explode(" ", $posisi);
-        $posisi1        = $pss_ex[0]. ' ';
-        $posisi2        = $pss_ex[1];
-        $ket            = $r1['ket'];
+        $codeaset       = $r1['codeasset'];
+        $namaaset       = $r1['namaasset'];
+        $lokasi         = $r1['lokasi'];
+        $tgldatang      = $r1['tgldatang'];
         $author         = $_SESSION['name'];
 
-        if ($idbom == '') {
+        if ($idasset == '') {
             $error = "Data tidak ditemukan";
         }
     }
@@ -95,10 +76,10 @@
         $sql1           = "SELECT * FROM $tabelnya where id = '$id'";
         $q1             = mysqli_query($conn, $sql1);
         $r1             = mysqli_fetch_array($q1);
-        $partnumber     = $r1['partnumber'];
-        $partname       = $r1['partname'];
-        $qty            = $r1['qty'];
-        $satuan         = $r1['satuan'];
+        $kendala        = $r1['kendala'];
+        $repair         = $r1['repair'];
+        $status         = $r1['status'];
+        $operator       = $r1['operator'];
         $author         = $_SESSION['name'];
 
         if ($id == '') {
@@ -194,7 +175,7 @@
                 <div class="col ps-md-3 max-vh-100" data-aos="fade" data-aos-delay="100">
                     <!-- Header-->  
                     <div class="page-header pt-3">
-                        <h2>Coba BOM</h2>
+                        <h2>LOG REPAIR</h2>
                     </div>
                     <hr class="mb-3">
                     <!-- End Header-->
@@ -214,121 +195,31 @@
 
                                 <!-- Card Body -->
                                 <div class="card-body bg-light">
-                                    <!-- Input Form -->
-                                    <form action="" method="POST">
-                                        <div class="row">
-
-                                            <!-- Input Group -->
-                                            <div class="col-md-4" style="border-right : 1px solid #adb5bd">
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                    <label for="pnumber" class="col-sm-12 col-form-label">Partnumber</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="pnumber" name="pnumber" value="<?php echo $pnumber ?>" readonly>
-                                                    </div> 
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="pname" class="col-sm-12 col-form-label">Partname</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="pname" name="pname" value="<?php echo $pname ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="pcode" class="col-sm-12 col-form-label">Partcode</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm " id="pcode" name="pcode" value="<?php echo $pcode ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="unikno" class="col-sm-12 col-form-label">Unique No</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="unikno" name="unikno" value="<?php echo $unikno ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                <!-- End Input Item -->
+                                <table class="table table-responsive-lg table-bordered">
+                                                <tr>
+                                                    <th width=8%>ID ASSET</th>
+                                                    <td class="align-middle"><?php echo $idasset; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>KODE ASSET</th>
+                                                    <td class="align-middle"><?php echo $codeaset; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>NAMA ASSET</th>
+                                                    <td class="align-middle"><?php echo $namaaset; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>LOKASI</th>
+                                                    <td class="align-middle"><?php echo $lokasi; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>TGL DATANG</th>
+                                                    <td class="align-middle"><?php echo $tgldatang; ?></td>
+                                                </tr>
+                                                </table>
+                                                <div class="col-md-12 d-flex justify-content-start">
+                                                        <a href="reg-asset.php"><button type="button" class="btn btn-warning">Back</button></a>
                                             </div>
-                                            <!-- End Input Group -->
-                                            <!-- Input Group -->
-                                            <div class="col-md-4" style="border-right : 1px solid #adb5bd">
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                    <label for="model" class="col-sm-12 col-form-label">Model</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="model" name="model" value="<?php echo $model ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="posisi" class="col-sm-12 col-form-label">Posisi</label>
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control form-control-sm" id="pss1" name="pss1" value="<?php echo $posisi1 ?>" readonly>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control form-control-sm" id="pss2" name="pss2" value="<?php echo $posisi2 ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="line" class="col-sm-12 col-form-label">Line</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="line" name="line" value="<?php echo $grupline ?>" readonly>
-                                                    </div>
-                                                    
-                                                </div>
-                                                
-                                                <div class="mb-1 row">
-                                                    <label for="cust" class="col-sm-12 col-form-label">Customer</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="cust" name="cust" value="<?php echo $cust ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                
-                                                
-                                                <!-- End Input Item -->
-                                            </div>
-                                            <div class="col-md-4">
-                                                <!-- Input Item -->
-                                                <div class="mb-1 row">
-                                                        <label for="perjam" class="col-sm-12 col-form-label">Kapasitas /jam</label>
-                                                        <div class="col-sm-6">
-                                                            <input type="text" class="form-control form-control-sm" id="perjam" name="perjam" value="<?php echo $perjam ?>" readonly>
-                                                        </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                        <label for="lotbox" class="col-sm-12 col-form-label">Qty /box</label>
-                                                        <div class="col-sm-6">
-                                                            <input type="text" class="form-control form-control-sm" id="lotbox" name="lotbox" value="<?php echo $lotbox ?>" readonly>
-                                                        </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="event" class="col-sm-12 col-form-label">Event</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="event" name="event" value="<?php echo $event ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-1 row">
-                                                    <label for="ket" class="col-sm-12 col-form-label">Author</label>
-                                                    <div class="col-sm-12">
-                                                        <input type="text" class="form-control form-control-sm" id="aut" name="aut" value="<?php echo $author ?>" readonly>
-                                                    </div>
-                                                </div>
-                                                <!-- End Input Item -->
-                                            </div>
-                                            <!-- Input Group -->
-                                            <div class="col-md-3">
-                                                
-                                                <!-- End Input Item -->
-
-                                            </div>
-                                            <!-- End Input Group -->
-
-                                            <!-- Submit Button -->
-                                            <div class="col-md-12 d-flex justify-content-start">
-                                                        <a href="add-bom.php"><button type="button" class="btn btn-warning">Back</button></a>
-                                            </div>
-                                            <!-- End Submit Button -->
-                                        </div>
-
-                                    </form>
-                                    <!-- End Input Form -->
                                 </div>
                                 <!-- End Card Body -->
 
@@ -384,7 +275,7 @@
                                             <div class="col-sm-3">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="partnumber" class="col-sm-12 col-form-label">Partnumber</label>
+                                                    <label for="partnumber" class="col-sm-12 col-form-label">Kendala</label>
                                                     <div class="col-sm-12">
                                                         <input type="text" class="form-control form-control-sm" id="partnumber" name="partnumber" onkeyup="autofill()" value="<?php echo $partnumber ?>">
                                                     </div> 
@@ -393,7 +284,7 @@
                                             <div class="col-sm-3">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="partname" class="col-sm-12 col-form-label">Partname</label>
+                                                    <label for="partname" class="col-sm-12 col-form-label">Perbaikan</label>
                                                     <div class="col-sm-12">
                                                         <input type="text" class="form-control form-control-sm" id="partname" name="partname" value="<?php echo $partname ?>" readonly>
                                                     </div> 
@@ -402,7 +293,7 @@
                                             <div class="col-sm-2">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="qty" class="col-sm-12 col-form-label">Qty</label>
+                                                    <label for="qty" class="col-sm-12 col-form-label">Status</label>
                                                     <div class="col-sm-6">
                                                         <input type="number" class="form-control form-control-sm" id="qty" name="qty" value="<?php echo $qty ?>" >
                                                     </div> 
@@ -411,7 +302,7 @@
                                             <div class="col-sm-2">
                                                 <!-- Input Item -->
                                                 <div class="mb-1 row">
-                                                    <label for="satuan" class="col-sm-12 col-form-label">Satuan</label>
+                                                    <label for="satuan" class="col-sm-12 col-form-label">Operator</label>
                                                     <div class="col-sm-12">
                                                         <input type="text" class="form-control form-control-sm" id="satuan" name="satuan" value="<?php echo $satuan ?>" readonly >
                                                     </div> 

@@ -578,11 +578,7 @@
     </section>
     <!-- End Main -->
 
-    <!--Table -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-
+    <?php include '../../layout/js.php' ?>
     <script>
     $(document).ready(function () {
     $('#show_table').DataTable({
@@ -594,7 +590,7 @@
    
 
     <!-- Template Main JS File -->
-    <?php include '../../layout/js.php' ?>
+ 
  <!-- footer Files -->
  <?php include '../../layout/footer.php' ?>
 </body>
